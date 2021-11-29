@@ -1,4 +1,4 @@
-package com.example.app_base_siskit.feature_login.presentation.common
+package com.example.app_base_siskit.utils.common
 
 sealed class BaseResult <out T : Any, out U : Any> {
     data class Success <T: Any>(val data : T) : BaseResult<T, Nothing>()
