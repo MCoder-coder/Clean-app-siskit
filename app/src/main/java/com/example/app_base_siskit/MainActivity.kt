@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
 import com.example.app_base_siskit.databinding.ActivityMainBinding
 import com.example.app_base_siskit.feature_login.data.common.utils.WrappedResponse
 import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginRequest
@@ -26,13 +27,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        login()
-
 
     }
 
     private fun login(){
-        binding.loginButton.setOnClickListener {
+    /*    binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString().trim()
             val password = binding.passwordEditText.text.toString().trim()
             val hash = ""
@@ -41,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                 val vm = viewModel.login(loginRequest)
                 Log.i("TAG" , vm.toString())
 
-        }
+        }*/
     }
 
 
