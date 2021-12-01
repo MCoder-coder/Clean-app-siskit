@@ -1,5 +1,6 @@
 package com.example.app_base_siskit
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,14 +20,13 @@ import kotlinx.coroutines.flow.launchIn
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var bindingActivityMain: ActivityMainBinding
     private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+        bindingActivityMain = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(bindingActivityMain.root)
 
     }
 
@@ -42,8 +42,5 @@ class MainActivity : AppCompatActivity() {
 
         }*/
     }
-
-
-
 
 }
