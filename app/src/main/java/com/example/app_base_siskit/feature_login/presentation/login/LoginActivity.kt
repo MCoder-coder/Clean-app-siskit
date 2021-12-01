@@ -9,6 +9,7 @@ import com.example.app_base_siskit.databinding.ActivityLoginBinding
 import com.example.app_base_siskit.databinding.ActivityMainBinding
 
 class LoginActivity : AppCompatActivity() {
+
     private lateinit var bindingLogin: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

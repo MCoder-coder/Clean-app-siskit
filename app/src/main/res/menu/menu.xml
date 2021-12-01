@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/action_search_client"
+            android:icon="@drawable/ic_search"
+            android:title="Buscar Cliente" />
+        <item
+            android:id="@+id/action_search_article"
+            android:icon="@drawable/ic_search"
+            android:title="Buscar Articulo" />
+        <item
+            android:id="@+id/action_add"
+            android:icon="@drawable/ic_add"
+            android:title="Nuevo Pedido" />
+        <item
+            android:id="@+id/action_up"
+            android:icon="@drawable/ic_upload"
+            android:title="Subir Pedidos" />
+        <item
+            android:id="@+id/action_history"
+            android:icon="@drawable/ic_history"
+            android:title="Pedidos subidos" />
+        <item
+            android:id="@+id/buckup_sql"
+            android:icon="@drawable/ic_save"
+            android:title="Backup" />
+        <item
+            android:id="@+id/action_sicronizacion"
+            android:icon="@drawable/ic_baseline_cloud_download_24"
+            android:title="Sicronizacion" />
+        <item
+            android:id="@+id/action_exit"
+            android:icon="@drawable/ic_exit"
+            android:title="Cerrar Sesión" />
+    </group>
+
+</menu>

@@ -1,5 +1,46 @@
 <resources>
-    <string name="app_name">app-base-siskit</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">App Vendedores Siskit Gestion</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_add">Agregar</string>
+
+    <string name="title_activity_splash">Splash</string>
+    <string name="splash_text">App Vendedores</string>
+    <string name="entering">Ingresando ...</string>
+    <string name="check_hash">Validando Acceso...</string>
+    <string name="check_hash_valid">Acceso Valido!</string>
+    <string name="check_hash_invalid">Acceso invalido. Vuelva a ingresar</string>
+    <string name="sync_clients">Sincronizando clientes...</string>
+    <string name="sync_articles">Sincronizando articulos...</string>
+    <string name="sync_locations">Sincronizando localidades...</string>
+    <string name="wrong_pass">Contraseña incorrecta</string>
+    <string name="wrong_email">Email inválido</string>
+    <string name="enter">Ingresar</string>
+    <string name="email">Email</string>
+    <string name="pass">Contraseña</string>
+    <string name="clientes">Clientes</string>
+    <string name="cerrar_sesion" />
+    <string name="title_activity_articles"></string>
+    <!-- Strings used for fragments for navigation -->
+
+    <string name="title_activity_client">ClientActivity</string>
+    <string name="articulos">Articulos</string>
+    <string name="nanod10_hotmail_com">Nanod10@hotmail.com</string>
+    <string name="title_activity_history">HistoryActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_clients2">ClientsActivity2</string>
+    <string name="title_activity_new_user2">NewUserActivity2</string>
+    <string name="host">Host</string>
+    <string name="versionName" />
+    <string name="sicronizacion">Sicronizacion</string>
+    <string name="actualizar_articulos">Actualizar Articulos</string>
 </resources>
