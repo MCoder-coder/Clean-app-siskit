@@ -21,8 +21,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
-    private val viewModel: LoginViewModel by viewModels()
     private  lateinit var toolbar : Toolbar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,7 +31,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawer_layout = findViewById<DrawerLayout>(R.id.drawer_layout)
 
         setSupportActionBar(toolbar)
-
+        //titulo appbar package
+        title = ""
         val toggle = ActionBarDrawerToggle(
             this,
             drawer_layout,

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">App Vendedores Siskit Gestion</string>
+    <string name="app_name">Siskit</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -7,7 +7,7 @@
     <string name="action_add">Agregar</string>
 
     <string name="title_activity_splash">Splash</string>
-    <string name="splash_text">App Vendedores</string>
+    <string name="splash_text">Siskit</string>
     <string name="entering">Ingresando ...</string>
     <string name="check_hash">Validando Acceso...</string>
     <string name="check_hash_valid">Acceso Valido!</string>
