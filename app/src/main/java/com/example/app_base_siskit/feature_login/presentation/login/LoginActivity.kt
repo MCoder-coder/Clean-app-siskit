@@ -15,6 +15,7 @@ import com.example.app_base_siskit.feature_login.data.common.utils.WrappedRespon
 import com.example.app_base_siskit.feature_login.data.login.remote.dto.Data
 import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginParam
 import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginResponse
+import com.example.app_base_siskit.feature_login.data.login.utils.WrappedResponseLogin
 import com.example.app_base_siskit.feature_login.domain.login.entity.LoginEntity
 import com.example.app_base_siskit.feature_login.presentation.common.isEmail
 import com.example.app_base_siskit.feature_login.presentation.common.showGenericAlertDialog
@@ -46,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
         bindingLogin = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(bindingLogin.root)
 
+
         login()
         observe()
 
@@ -60,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
                 val password = bindingLogin.password.text.toString().trim()
                if(validate(email, password)){
                    val loginParam = LoginParam(email, password)
-                   viewModel.login( loginParam)
+                   viewModel.login(  loginParam)
                }
 
             }
@@ -113,8 +115,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
     private fun handleSuccessLogin(loginEntity: LoginEntity){
-        //sharedPrefs.saveToken(loginEntity.email)
-        showToast("Bienvenido ${loginEntity.email}")
+        sharedPrefs.saveHash(loginEntity.hash)
+        showToast("Bienvenido ${loginEntity.nombre}")
         goToMainActivity()
     }
     private fun handleLoading(isLoading: Boolean){
@@ -126,8 +128,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleErrorLogin(response: WrappedResponse<LoginResponse>){
-        showGenericAlertDialog(response.mensaje)
+    private fun handleErrorLogin(response: List<WrappedResponseLogin<LoginResponse>>){
+        for (responseError in response){
+            showGenericAlertDialog(responseError.mensaje)
+        }
+
     }
     private fun goToMainActivity(){
         startActivity(Intent(this@LoginActivity, MainActivity::class.java))

@@ -1,9 +1,11 @@
 package com.example.app_base_siskit
 
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -16,12 +18,17 @@ import dagger.hilt.android.AndroidEntryPoint
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.app_base_siskit.feature_login.presentation.login.LoginActivity
+import com.example.app_base_siskit.utils.SharedPrefs
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
     private  lateinit var toolbar : Toolbar
+    @Inject
+    lateinit var sharedPrefs: SharedPrefs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,11 +36,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         val drawer_layout = findViewById<DrawerLayout>(R.id.drawer_layout)
-
+        val nav_view = findViewById<NavigationView>(R.id.nav_view)
         setSupportActionBar(toolbar)
+        nav_view.setNavigationItemSelectedListener(this)
         //titulo appbar package
         title = ""
-        val toggle = ActionBarDrawerToggle(
+        ActionBarDrawerToggle(
             this,
             drawer_layout,
             toolbar,
@@ -88,9 +96,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
             R.id.action_exit -> {
-
-
-
+                signOut()
+                Log.i("Tag", "click")
             }
 
         }
@@ -99,17 +106,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    private fun login(){
-    /*    binding.loginButton.setOnClickListener {
-            val email = binding.emailEditText.text.toString().trim()
-            val password = binding.passwordEditText.text.toString().trim()
-            val hash = ""
-                val loginRequest = LoginRequest( email , password)
-                Log.i("TAG" , loginRequest.toString())
-                val vm = viewModel.login(loginRequest)
-                Log.i("TAG" , vm.toString())
+    private fun goToLoginActivity(){
+        startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+        finish()
+    }
 
-        }*/
+    private fun signOut(){
+        sharedPrefs.clear()
+        goToLoginActivity()
     }
 
 }

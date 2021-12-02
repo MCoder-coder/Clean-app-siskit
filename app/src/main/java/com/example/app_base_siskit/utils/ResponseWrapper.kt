@@ -1,5 +1,6 @@
 package com.example.app_base_siskit.feature_login.data.common.utils
 
+import com.example.app_base_siskit.feature_login.data.login.remote.dto.Data
 import com.google.gson.annotations.SerializedName
 
 data class WrappedListResponse<T> (
@@ -13,6 +14,6 @@ data class WrappedListResponse<T> (
 
 data class WrappedResponse<T> (
     @SerializedName("mensaje") var mensaje : String,
-    @SerializedName("estado") var estado : Boolean,
-    @SerializedName("data") var data : T
+    @SerializedName("estado") var estado : String,
+    @SerializedName("data") var data : Data
 )

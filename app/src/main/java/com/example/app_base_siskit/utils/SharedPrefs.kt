@@ -7,18 +7,18 @@ import android.content.SharedPreferences
 class SharedPrefs (private val context: Context) {
     companion object {
         private const val PREF = "MyAppPrefName"
-        private const val PREF_TOKEN = "user_token"
+        private const val PREF_HASH = "user_hash"
     }
 
     private val sharedPref: SharedPreferences = context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
 
 
-    fun saveToken(token: String){
-        put(PREF_TOKEN, token)
+    fun saveHash(hash: String){
+        put(PREF_HASH, hash)
     }
 
-    fun getToken() : String {
-        return get(PREF_TOKEN, String::class.java)
+    fun getHash() : String {
+        return get(PREF_HASH, String::class.java)
     }
 
     private fun <T> get(key: String, clazz: Class<T>): T =
@@ -47,7 +47,7 @@ class SharedPrefs (private val context: Context) {
 
     fun clear() {
         sharedPref.edit().run {
-            remove(PREF_TOKEN)
+            remove(PREF_HASH)
         }.apply()
     }
 }
