@@ -1,7 +1,7 @@
 package com.example.app_base_siskit.feature_login.data.login
 
 
-import com.example.app_base_siskit.feature_login.data.common.module.NetworkModule
+import com.example.app_base_siskit.di.module.NetworkModule
 import com.example.app_base_siskit.feature_login.data.login.remote.api.LoginApi
 import com.example.app_base_siskit.feature_login.data.login.repository.LoginRepositoryImpl
 import com.example.app_base_siskit.feature_login.domain.login.repository.LoginRepository

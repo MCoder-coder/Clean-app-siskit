@@ -1,19 +1,14 @@
-package com.example.app_base_siskit.feature_login.data.common.module
+package com.example.app_base_siskit.di.module
 
-import com.example.app_base_siskit.BuildConfig
-import com.example.app_base_siskit.feature_login.data.common.utils.RequestInterceptor
-import com.example.app_base_siskit.feature_login.data.login.remote.api.LoginApi
+import com.example.app_base_siskit.di.ApiBaseUrl
 
-import com.example.app_base_siskit.utils.Constants
 import com.example.app_base_siskit.utils.SharedPrefs
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -36,7 +31,7 @@ object NetworkModule {
         return Retrofit.Builder().apply {
             addConverterFactory(GsonConverterFactory.create())
             client(okHttp)
-            baseUrl(LoginApi.BASE_URL)
+            baseUrl(ApiBaseUrl.BASE_URL)
         }.build()
     }
 
@@ -51,8 +46,5 @@ object NetworkModule {
         }.build()
     }
 
-    @Provides
-    fun provideRequestInterceptor(prefs: SharedPrefs) : RequestInterceptor {
-        return RequestInterceptor()
-    }
+
 }

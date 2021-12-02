@@ -1,4 +1,4 @@
-package com.example.app_base_siskit.feature_login.data.common.module
+package com.example.app_base_siskit.di.module
 
 import android.content.Context
 import com.example.app_base_siskit.utils.SharedPrefs

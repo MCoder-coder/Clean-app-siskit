@@ -4,7 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.app_base_siskit.feature_login.data.common.utils.WrappedResponse
-import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginRequest
+import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginParam
+import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginResponse
 import com.example.app_base_siskit.feature_login.domain.login.entity.LoginEntity
 import com.example.app_base_siskit.feature_login.domain.login.usecase.LoginUseCase
 import com.example.app_base_siskit.feature_login.presentation.common.BaseResult
@@ -33,23 +34,25 @@ class LoginViewModel  @Inject constructor(private val loginUseCase: LoginUseCase
     }
 
 
-    fun login(loginRequest: LoginRequest){
+    fun login(loginParam: LoginParam ){
         viewModelScope.launch {
-            loginUseCase.invoke(loginRequest)
+            loginUseCase.invoke(loginParam)
                 .onStart {
                     setLoading()
                 }
                 .catch { exception ->
                     hideLoading()
+                    Log.i("Tag" , exception.message.toString())
                     showToast(exception.message.toString())
                 }
                 .collect { baseResult ->
                     hideLoading()
                     when(baseResult){
 
-                        is BaseResult.Error ->  LoginActivityState.ErrorLogin(baseResult.rawResponse)
-                        is BaseResult.Success ->  LoginActivityState.SuccessLogin(baseResult.data)
+                        is BaseResult.Error -> state.value = LoginActivityState.ErrorLogin(baseResult.rawResponse)
+                        is BaseResult.Success -> state.value = LoginActivityState.SuccessLogin(baseResult.data)
                     }
+
                 }
 
         }
@@ -62,5 +65,5 @@ sealed class LoginActivityState  {
     data class IsLoading(val isLoading: Boolean) : LoginActivityState()
     data class ShowToast(val message: String) : LoginActivityState()
     data class SuccessLogin(val loginEntity: LoginEntity) : LoginActivityState()
-    data class ErrorLogin(val rawResponse: WrappedResponse<LoginRequest>) : LoginActivityState()
+    data class ErrorLogin(val rawResponse: WrappedResponse<LoginResponse>) : LoginActivityState()
 }

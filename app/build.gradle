@@ -61,6 +61,9 @@ dependencies {
 
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
     implementation 'com.android.support:multidex:1.0.3'
+    // Activity KTX for viewModels()
+    implementation "androidx.activity:activity-ktx:1.2.3"
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha02")
 
 
 
