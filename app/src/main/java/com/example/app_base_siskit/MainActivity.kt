@@ -2,12 +2,15 @@ package com.example.app_base_siskit
 
 
 import android.content.Intent
+import android.content.pm.PackageInfo
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -41,7 +44,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
         //titulo appbar package
         title = ""
-        ActionBarDrawerToggle(
+        val toggle = ActionBarDrawerToggle(
             this,
             drawer_layout,
             toolbar,
@@ -49,6 +52,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.string.navigation_drawer_close
         )
 
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
+        val headerView = navigationView.getHeaderView(0)
+        //obtengo el numero de version codigo
+        val pInfo: PackageInfo =
+            this.getPackageManager().getPackageInfo(this.getPackageName(), 0)
+        //version name
+        val version = pInfo.versionName
+        val version_name = headerView.findViewById<TextView>(R.id.version_name)
+        val name = headerView.findViewById<TextView>(R.id.name)
+        val host = headerView.findViewById<TextView>(R.id.name_host)
+        name.text =  "¡Hola ${sharedPrefs.getNombre()}!"
+        host.text = sharedPrefs.getEmail()
+        //imprimo el name version en el drawble
+        version_name.text = "v${version}"
     }
 
     override fun onBackPressed() {

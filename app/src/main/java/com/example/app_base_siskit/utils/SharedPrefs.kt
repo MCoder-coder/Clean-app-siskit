@@ -8,15 +8,27 @@ class SharedPrefs (private val context: Context) {
     companion object {
         private const val PREF = "MyAppPrefName"
         private const val PREF_HASH = "user_hash"
+        private const val PREF_NOMBRE = "nombre"
+        private const val PREF_EMAIL = "email"
     }
 
     private val sharedPref: SharedPreferences = context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
 
-
+    fun saveEmail(email : String){
+        put(PREF_EMAIL , email)
+    }
+    fun saveNombre(nombre : String){
+        put(PREF_NOMBRE , nombre)
+    }
     fun saveHash(hash: String){
         put(PREF_HASH, hash)
     }
-
+    fun getEmail() : String{
+       return get(PREF_EMAIL , String::class.java)
+    }
+    fun getNombre() : String{
+       return get(PREF_NOMBRE , String::class.java)
+    }
     fun getHash() : String {
         return get(PREF_HASH, String::class.java)
     }

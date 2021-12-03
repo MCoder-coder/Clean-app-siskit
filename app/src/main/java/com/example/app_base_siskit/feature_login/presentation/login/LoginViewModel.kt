@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.app_base_siskit.feature_login.data.common.utils.WrappedResponse
 import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginParam
 import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginResponse
+import com.example.app_base_siskit.feature_login.data.login.utils.WrappedResponseLogin
 import com.example.app_base_siskit.feature_login.domain.login.entity.LoginEntity
 import com.example.app_base_siskit.feature_login.domain.login.usecase.LoginUseCase
 import com.example.app_base_siskit.feature_login.presentation.common.BaseResult
@@ -42,8 +43,8 @@ class LoginViewModel  @Inject constructor(private val loginUseCase: LoginUseCase
                 }
                 .catch { exception ->
                     hideLoading()
-                    Log.i("Tag" , exception.message.toString())
-                    showToast(exception.message.toString())
+                    Log.i("Tag exception.message"  , exception.message.toString())
+                    exception.message?.let { showToast(it) }
                 }
                 .collect { baseResult ->
                     hideLoading()
@@ -65,5 +66,5 @@ sealed class LoginActivityState  {
     data class IsLoading(val isLoading: Boolean) : LoginActivityState()
     data class ShowToast(val message: String) : LoginActivityState()
     data class SuccessLogin(val loginEntity: LoginEntity) : LoginActivityState()
-    data class ErrorLogin(val rawResponse: WrappedResponse<LoginResponse>) : LoginActivityState()
+    data class ErrorLogin(val rawResponse: WrappedResponseLogin<LoginResponse>) : LoginActivityState()
 }

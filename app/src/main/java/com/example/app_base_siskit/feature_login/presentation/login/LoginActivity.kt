@@ -4,12 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.example.app_base_siskit.MainActivity
+import com.example.app_base_siskit.R
 import com.example.app_base_siskit.databinding.ActivityLoginBinding
 import com.example.app_base_siskit.feature_login.data.common.utils.WrappedResponse
 import com.example.app_base_siskit.feature_login.data.login.remote.dto.Data
@@ -47,22 +50,19 @@ class LoginActivity : AppCompatActivity() {
         bindingLogin = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(bindingLogin.root)
 
-
         login()
         observe()
 
     }
 
-
-
-
     private fun login(){
            bindingLogin.actionLogin.setOnClickListener {
-                val email = bindingLogin.email.text.toString().trim()
-                val password = bindingLogin.password.text.toString().trim()
+               val email = bindingLogin.email.text.toString().trim()
+               val password = bindingLogin.password.text.toString().trim()
                if(validate(email, password)){
                    val loginParam = LoginParam(email, password)
-                   viewModel.login(  loginParam)
+                   bindingLogin.textFriend.text = getString(R.string.entering)
+                   viewModel.login(loginParam)
                }
 
             }
@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         if(password.length < 8){
-            setPasswordError("Paswword no valido")
+            setPasswordError("Password no valido")
             return false
         }
 
@@ -96,7 +96,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setEmailError(e : String?){
-
         bindingLogin.email.error = e
     }
 
@@ -108,7 +107,7 @@ class LoginActivity : AppCompatActivity() {
 
         when(state){
             is LoginActivityState.Init -> Unit
-            is LoginActivityState.ErrorLogin -> Log.i("Tag" , handleErrorLogin(state.rawResponse).toString())
+            is LoginActivityState.ErrorLogin -> Log.i("Tag handleErrorLogin" , handleErrorLogin(state.rawResponse).toString())
             is LoginActivityState.SuccessLogin -> handleSuccessLogin(state.loginEntity)
             is LoginActivityState.ShowToast -> showToast(state.message)
             is LoginActivityState.IsLoading -> handleLoading(state.isLoading)
@@ -116,6 +115,8 @@ class LoginActivity : AppCompatActivity() {
     }
     private fun handleSuccessLogin(loginEntity: LoginEntity){
         sharedPrefs.saveHash(loginEntity.hash)
+        sharedPrefs.saveNombre(loginEntity.nombre)
+        sharedPrefs.saveEmail(loginEntity.email)
         showToast("Bienvenido ${loginEntity.nombre}")
         goToMainActivity()
     }
@@ -128,10 +129,26 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleErrorLogin(response: List<WrappedResponseLogin<LoginResponse>>){
-        for (responseError in response){
-            showGenericAlertDialog(responseError.mensaje)
-        }
+    private fun showLoginForm() {
+        bindingLogin.loginForm.visibility = View.VISIBLE
+        bindingLogin.loginForm.animate()
+            .alpha(1.0f)
+            .setDuration(800)
+            .setListener(null)
+    }
+
+    //@SuppressLint("WrongViewCast")
+    private fun hideLoginForm() {
+        //findViewById<LinearLayout>(R.id.title).animate().translationY(300f).duration = 1000
+        bindingLogin.loginForm.animate()
+            .translationY(300f)
+            .alpha(0.0f).duration = 600
+
+    }
+
+    private fun handleErrorLogin(response: WrappedResponseLogin<LoginResponse>){
+            Log.i("TAG RESPONSE HANDLE" , response.mensaje)
+            showGenericAlertDialog(response.mensaje)
 
     }
     private fun goToMainActivity(){
