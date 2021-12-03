@@ -1,6 +1,7 @@
 package com.example.app_base_siskit
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.os.Build
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     @Inject
     lateinit var sharedPrefs: SharedPrefs
 
+    @SuppressLint("SetTextI18n", "CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -40,10 +42,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         val drawer_layout = findViewById<DrawerLayout>(R.id.drawer_layout)
         val nav_view = findViewById<NavigationView>(R.id.nav_view)
+        val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
+        val pInfo: PackageInfo = this.packageManager.getPackageInfo(this.packageName, 0)
+        val headerView = navigationView.getHeaderView(0)
+        val version = pInfo.versionName
+        val version_name = headerView.findViewById<TextView>(R.id.version_name)
+        val name = headerView.findViewById<TextView>(R.id.name)
+        val host = headerView.findViewById<TextView>(R.id.name_host)
+
         setSupportActionBar(toolbar)
         nav_view.setNavigationItemSelectedListener(this)
-        //titulo appbar package
+
         title = ""
+
         val toggle = ActionBarDrawerToggle(
             this,
             drawer_layout,
@@ -51,23 +62,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
-
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
-        val headerView = navigationView.getHeaderView(0)
-        //obtengo el numero de version codigo
-        val pInfo: PackageInfo =
-            this.getPackageManager().getPackageInfo(this.getPackageName(), 0)
-        //version name
-        val version = pInfo.versionName
-        val version_name = headerView.findViewById<TextView>(R.id.version_name)
-        val name = headerView.findViewById<TextView>(R.id.name)
-        val host = headerView.findViewById<TextView>(R.id.name_host)
+
         name.text =  "¡Hola ${sharedPrefs.getNombre()}!"
         host.text = sharedPrefs.getEmail()
-        //imprimo el name version en el drawble
         version_name.text = "v${version}"
     }
 
@@ -91,30 +91,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawer_layout = findViewById<DrawerLayout>(R.id.drawer_layout)
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.action_add -> {
 
-            }
-
-            R.id.action_history -> {
-
-            }
-
-            R.id.action_up -> {
-
-            }
-
-            R.id.action_search_client -> {
-
-            }
-
-            R.id.action_search_article -> {
-
-            }
-            R.id.buckup_sql ->{
-            }
-            R.id.action_sicronizacion ->{
-
-            }
             R.id.action_exit -> {
                 signOut()
                 Log.i("Tag", "click")
@@ -132,7 +109,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun signOut(){
-        sharedPrefs.clear()
+        //sharedPrefs.clear()
         goToLoginActivity()
     }
 

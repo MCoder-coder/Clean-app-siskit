@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.app_base_siskit.MainActivity
 import com.example.app_base_siskit.R
 import com.example.app_base_siskit.databinding.ActivityLoginBinding
+import com.example.app_base_siskit.di.module.CheckConnectionNetworkModule
 import com.example.app_base_siskit.feature_login.data.common.utils.WrappedResponse
 import com.example.app_base_siskit.feature_login.data.login.remote.dto.Data
 import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginParam
@@ -63,6 +64,12 @@ class LoginActivity : AppCompatActivity() {
                    val loginParam = LoginParam(email, password)
                    bindingLogin.textFriend.text = getString(R.string.entering)
                    viewModel.login(loginParam)
+               }
+
+               val checkConnectionNetworkModule = CheckConnectionNetworkModule.isNetworkAvailable(this)
+
+               if (sharedPrefs.getHash().isNotEmpty() && !checkConnectionNetworkModule){
+                   goToMainActivity()
                }
 
             }

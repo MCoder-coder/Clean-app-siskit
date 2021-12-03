@@ -44,7 +44,7 @@ class LoginViewModel  @Inject constructor(private val loginUseCase: LoginUseCase
                 .catch { exception ->
                     hideLoading()
                     Log.i("Tag exception.message"  , exception.message.toString())
-                    exception.message?.let { showToast(it) }
+                   ///exception.message?.let { showToast(it) }
                 }
                 .collect { baseResult ->
                     hideLoading()
