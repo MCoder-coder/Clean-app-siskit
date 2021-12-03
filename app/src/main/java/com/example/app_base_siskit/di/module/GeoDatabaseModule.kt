@@ -1,4 +1,4 @@
-package com.example.app_base_siskit.feature_geo_contact.di
+package com.example.app_base_siskit.di.module
 
 import android.app.Application
 import androidx.room.Room
@@ -11,8 +11,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object GeoModule {
-
+object GeoDatabaseModule {
     @Provides
     @Singleton
     fun provideGeoDatabase(app: Application) : GeoDatabase{

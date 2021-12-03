@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,11 +14,9 @@ import com.example.app_base_siskit.MainActivity
 import com.example.app_base_siskit.R
 import com.example.app_base_siskit.databinding.ActivityLoginBinding
 import com.example.app_base_siskit.di.module.CheckConnectionNetworkModule
-import com.example.app_base_siskit.feature_login.data.common.utils.WrappedResponse
-import com.example.app_base_siskit.feature_login.data.login.remote.dto.Data
-import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginParam
+import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginRequest
+import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginResponseBase
 import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginResponse
-import com.example.app_base_siskit.feature_login.data.login.utils.WrappedResponseLogin
 import com.example.app_base_siskit.feature_login.domain.login.entity.LoginEntity
 import com.example.app_base_siskit.feature_login.presentation.common.isEmail
 import com.example.app_base_siskit.feature_login.presentation.common.showGenericAlertDialog
@@ -61,11 +58,12 @@ class LoginActivity : AppCompatActivity() {
                val email = bindingLogin.email.text.toString().trim()
                val password = bindingLogin.password.text.toString().trim()
                if(validate(email, password)){
-                   val loginParam = LoginParam(email, password)
+                   val loginParam = LoginRequest(email, password)
                    bindingLogin.status.text = getString(R.string.entering)
                    viewModel.login(loginParam)
                }
 
+               // TODO verificar
                val checkConnectionNetworkModule = CheckConnectionNetworkModule.isNetworkAvailable(this)
 
                if (sharedPrefs.getHash().isNotEmpty() && !checkConnectionNetworkModule){
@@ -114,7 +112,7 @@ class LoginActivity : AppCompatActivity() {
 
         when(state){
             is LoginActivityState.Init -> Unit
-            is LoginActivityState.ErrorLogin -> Log.i("Tag handleErrorLogin" , handleErrorLogin(state.rawResponse).toString())
+            is LoginActivityState.ErrorLogin -> Log.i("Tag handleErrorLogin" , handleErrorLogin(state.rawResponseResponseBase).toString())
             is LoginActivityState.SuccessLogin -> handleSuccessLogin(state.loginEntity)
             is LoginActivityState.ShowToast -> showToast(state.message)
             is LoginActivityState.IsLoading -> handleLoading(state.isLoading)
@@ -153,12 +151,13 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun handleErrorLogin(response: WrappedResponseLogin<LoginResponse>){
-            Log.i("TAG RESPONSE HANDLE" , response.mensaje)
-            showGenericAlertDialog(response.mensaje)
+    private fun handleErrorLogin(responseResponseBase: LoginResponse<LoginResponseBase>){
+            Log.i("TAG RESPONSE HANDLE" , responseResponseBase.mensaje)
+            showGenericAlertDialog(responseResponseBase.mensaje)
 
     }
     private fun goToMainActivity(){
+
         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
         finish()
     }

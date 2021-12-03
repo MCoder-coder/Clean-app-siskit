@@ -3,10 +3,9 @@ package com.example.app_base_siskit.feature_login.presentation.login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.app_base_siskit.feature_login.data.common.utils.WrappedResponse
-import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginParam
+import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginRequest
+import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginResponseBase
 import com.example.app_base_siskit.feature_login.data.login.remote.dto.LoginResponse
-import com.example.app_base_siskit.feature_login.data.login.utils.WrappedResponseLogin
 import com.example.app_base_siskit.feature_login.domain.login.entity.LoginEntity
 import com.example.app_base_siskit.feature_login.domain.login.usecase.LoginUseCase
 import com.example.app_base_siskit.feature_login.presentation.common.BaseResult
@@ -35,9 +34,9 @@ class LoginViewModel  @Inject constructor(private val loginUseCase: LoginUseCase
     }
 
 
-    fun login(loginParam: LoginParam ){
+    fun login(loginRequest: LoginRequest ){
         viewModelScope.launch {
-            loginUseCase.invoke(loginParam)
+            loginUseCase.invoke(loginRequest)
                 .onStart {
                     setLoading()
                 }
@@ -66,5 +65,5 @@ sealed class LoginActivityState  {
     data class IsLoading(val isLoading: Boolean) : LoginActivityState()
     data class ShowToast(val message: String) : LoginActivityState()
     data class SuccessLogin(val loginEntity: LoginEntity) : LoginActivityState()
-    data class ErrorLogin(val rawResponse: WrappedResponseLogin<LoginResponse>) : LoginActivityState()
+    data class ErrorLogin(val rawResponseResponseBase: LoginResponse<LoginResponseBase>) : LoginActivityState()
 }
