@@ -30,7 +30,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/semi"
-                    android:text="Pedidos"
                     android:textColor="@color/section_title"
                     android:textSize="@dimen/section_title" />
 

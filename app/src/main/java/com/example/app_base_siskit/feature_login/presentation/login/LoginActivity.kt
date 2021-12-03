@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
                val password = bindingLogin.password.text.toString().trim()
                if(validate(email, password)){
                    val loginParam = LoginParam(email, password)
-                   bindingLogin.textFriend.text = getString(R.string.entering)
+                   bindingLogin.status.text = getString(R.string.entering)
                    viewModel.login(loginParam)
                }
 
