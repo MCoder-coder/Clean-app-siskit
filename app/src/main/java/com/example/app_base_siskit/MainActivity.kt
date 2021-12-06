@@ -2,8 +2,10 @@ package com.example.app_base_siskit
 
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
+import android.location.LocationManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +14,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -22,8 +25,18 @@ import dagger.hilt.android.AndroidEntryPoint
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.*
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
+import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.app_base_siskit.feature_login.presentation.login.LoginActivity
+import com.example.app_base_siskit.feature_map.presentation.MapFragment
 import com.example.app_base_siskit.utils.SharedPrefs
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.mapsforge.map.android.graphics.AndroidGraphicFactory
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,7 +46,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private  lateinit var toolbar : Toolbar
     @Inject
     lateinit var sharedPrefs: SharedPrefs
+    lateinit var drawerLayout:DrawerLayout
 
+
+    private lateinit var appBarConfiguration: AppBarConfiguration
     @SuppressLint("SetTextI18n", "CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,10 +67,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val host = headerView.findViewById<TextView>(R.id.name_host)
 
         setSupportActionBar(toolbar)
-        nav_view.setNavigationItemSelectedListener(this)
+
+
 
         title = ""
 
+        /*
         val toggle = ActionBarDrawerToggle(
             this,
             drawer_layout,
@@ -62,46 +80,71 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
-        drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
+        //drawer_layout.addDrawerListener(toggle)
+        toggle.syncState() */
 
 
         name.text =  "¡Hola ${sharedPrefs.getNombre()}!"
         host.text = sharedPrefs.getEmail()
         version_name.text = "v${version}"
+
+
+        setUpNavigation()
+
+
     }
 
     override fun onBackPressed() {
-        val drawer_layout = findViewById<DrawerLayout>(R.id.drawer_layout)
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }else{
             super.onBackPressed()
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
+
+    @SuppressLint("CutPasteId")
+    private fun setUpNavigation(){
+        drawerLayout = findViewById(R.id.drawer_layout)
+        val nav_view = findViewById<NavigationView>(R.id.nav_view)
+        val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
+
+        navigationView.setNavigationItemSelectedListener(this)
+
+        appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+
+       setupActionBarWithNavController(navController, appBarConfiguration)
+
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val drawer_layout = findViewById<DrawerLayout>(R.id.drawer_layout)
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
 
-            R.id.action_exit -> {
-                signOut()
-                Log.i("Tag", "click")
-            }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+        val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        when(id){
+            R.id.action_map -> navController.navigate(R.id.mapFragment, null, )
+            R.id.action_exit -> goToLoginActivity()
 
         }
-
-        drawer_layout.closeDrawer(GravityCompat.START)
+        drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = this.findNavController(R.id.nav_host_fragment)
+        return NavigationUI.navigateUp(navController, drawerLayout)
+    }
+
+
+
 
     private fun goToLoginActivity(){
         startActivity(Intent(this@MainActivity, LoginActivity::class.java))

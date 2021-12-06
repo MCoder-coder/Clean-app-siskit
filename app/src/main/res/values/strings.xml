@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Siskit</string>
+    <string name="app_name">Navarro Siskit v1</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -43,4 +43,6 @@
     <string name="versionName" />
     <string name="sicronizacion">Sicronizacion</string>
     <string name="actualizar_articulos">Actualizar Articulos</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

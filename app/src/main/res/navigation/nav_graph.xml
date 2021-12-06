@@ -3,11 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
-
+    app:startDestination="@id/geo_contact">
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.app_base_siskit.feature_login.presentation.login.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_login" />
+        android:id="@+id/mapFragment"
+        android:name="com.example.app_base_siskit.feature_map.presentation.MapFragment"
+        android:label="Mapa de Relevamiento"
+        tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/geo_contact"
+        android:name="com.example.app_base_siskit.feature_geo_contact.presentation.GeoConcatFragment"
+        android:layout_gravity="center"
+        android:label="Geo Contact"
+        android:layout_centerHorizontal="true"
+        tools:layout="@layout/fragment_home"/>
+    <activity
+        android:id="@+id/mapActivity"
+        android:name="com.example.app_base_siskit.feature_map.presentation.MapActivity"
+        android:label="activity_map"
+        tools:layout="@layout/activity_map" />
 </navigation>
