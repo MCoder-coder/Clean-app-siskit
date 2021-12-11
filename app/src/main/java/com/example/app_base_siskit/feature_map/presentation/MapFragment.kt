@@ -3,15 +3,19 @@ package com.example.app_base_siskit.feature_map.presentation
 import android.content.Context
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.app_base_siskit.R
 import com.example.app_base_siskit.feature_map.utils.AddOfflineMapLayer
+import com.example.app_base_siskit.feature_map.utils.CreateLocationOverlay
 
-import com.example.app_base_siskit.utils.chekPermission
+import com.example.app_base_siskit.feature_map.utils.ChekPermission
+import com.example.app_base_siskit.feature_map.utils.RequestAllRequiredPermission
 import org.mapsforge.core.model.LatLong
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory
 import org.mapsforge.map.android.layers.MyLocationOverlay
@@ -68,12 +72,7 @@ class MapFragment : Fragment() {
         mapView.isClickable = true;
 
 
-
-        val checkPermissionForExternalStorage : Boolean = chekPermission().checkPermissionForExternalStorage(requireActivity().application)
-        // Chequeo Permisos de acceso a External Storage
-        if(checkPermissionForExternalStorage){
-            AddOfflineMapLayer().addOfflineMap(requireActivity(), mapView)
-        }
+        ChekPermission().checkPermissionFragment(requireContext() , mapView)
 
 
         mapView.isClickable = true;
@@ -91,6 +90,7 @@ class MapFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
+
     }
 
 
@@ -105,5 +105,8 @@ class MapFragment : Fragment() {
             requireView().findNavController()
         ) || super.onOptionsItemSelected(item)
     }
+
+
+
 
 }

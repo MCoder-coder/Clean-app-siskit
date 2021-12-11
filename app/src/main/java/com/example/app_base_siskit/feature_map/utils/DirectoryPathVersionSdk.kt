@@ -6,7 +6,7 @@ import android.os.Environment
 import android.util.Log
 import java.io.File
 
-class directoryPathVersionSdk {
+class DirectoryPathVersionSdk {
 
      fun directoryPathVersionSdk(context: Context): File? {
 

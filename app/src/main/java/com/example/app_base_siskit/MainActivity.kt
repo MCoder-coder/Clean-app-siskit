@@ -34,6 +34,7 @@ import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.app_base_siskit.feature_login.presentation.login.LoginActivity
 import com.example.app_base_siskit.feature_map.presentation.MapFragment
+import com.example.app_base_siskit.feature_map.utils.RequestAllRequiredPermission
 import com.example.app_base_siskit.utils.SharedPrefs
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory
@@ -67,7 +68,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val host = headerView.findViewById<TextView>(R.id.name_host)
 
         setSupportActionBar(toolbar)
-
 
 
         title = ""

@@ -26,7 +26,7 @@ class AddOfflineMapLayer {
     fun addOfflineMap(context: Context, mapView: MapView) {
         // Cargo el archivo del mapa offline
         val myMapfile =
-            File(directoryPathVersionSdk().directoryPathVersionSdk(context), "/argentina.map")
+            File(DirectoryPathVersionSdk().directoryPathVersionSdk(context), "/argentina.map")
 
         tileCache = AndroidUtil.createTileCache(
             context, "mapcache",
@@ -59,6 +59,7 @@ class AddOfflineMapLayer {
         } else {
             Log.d("MAPFILE", "NO EXISTE EL ARCHIVO")
             downloadDialog(context )
+            //
             //DownloadNotification(downloadID).downloadManager(context)
         }
     }

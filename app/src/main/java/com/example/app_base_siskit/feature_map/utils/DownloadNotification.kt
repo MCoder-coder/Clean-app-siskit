@@ -3,8 +3,6 @@ package com.example.app_base_siskit.feature_map.utils
 import android.app.DownloadManager
 import android.content.Context
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
 import android.util.Log
 import com.example.app_base_siskit.utils.Constants
 import java.io.File
@@ -17,7 +15,7 @@ class DownloadNotification(var downloadID: Long = 0) {
     fun downloadManager(context: Context) {
         Log.d("MAPFILE", "beginDownload()")
 
-        val file = File(directoryPathVersionSdk().directoryPathVersionSdk(context), "argentina.map")
+        val file = File(DirectoryPathVersionSdk().directoryPathVersionSdk(context), "argentina.map")
         // Create a DownloadManager.Request with all the information necessary to start the download
         val request: DownloadManager.Request =
             DownloadManager.Request(Uri.parse(Constants.DOWNLOAD_MAP_URI))
