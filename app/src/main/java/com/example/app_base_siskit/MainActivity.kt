@@ -2,42 +2,24 @@ package com.example.app_base_siskit
 
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
-import android.location.LocationManager
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
-import com.example.app_base_siskit.feature_login.presentation.login.LoginViewModel
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
-import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.app_base_siskit.feature_login.presentation.login.LoginActivity
-import com.example.app_base_siskit.feature_map.presentation.MapFragment
-import com.example.app_base_siskit.feature_map.utils.RequestAllRequiredPermission
 import com.example.app_base_siskit.utils.SharedPrefs
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import org.mapsforge.map.android.graphics.AndroidGraphicFactory
 import javax.inject.Inject
 
 @AndroidEntryPoint

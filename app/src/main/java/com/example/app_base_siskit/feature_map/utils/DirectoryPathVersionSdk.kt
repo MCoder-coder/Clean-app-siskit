@@ -8,6 +8,7 @@ import java.io.File
 
 class DirectoryPathVersionSdk {
 
+
      fun directoryPathVersionSdk(context: Context): File? {
 
         val filepath = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
@@ -22,6 +23,10 @@ class DirectoryPathVersionSdk {
         }
 
         return filepath
+    }
+
+    fun getFile(context: Context) : File{
+        return  File(DirectoryPathVersionSdk().directoryPathVersionSdk(context), "/argentina.map")
     }
 
 }
