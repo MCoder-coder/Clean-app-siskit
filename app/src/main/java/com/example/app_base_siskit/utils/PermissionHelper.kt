@@ -138,8 +138,9 @@ class PermissionHelper {
 
 
     /**
-     * Verifica los permisos necesarios para la aplicacion
-     * Si falta alguno muestra un mensaje de aviso
+     * Muestra Dialogo para permisos necesarios
+     *
+     * Si falta algun permiso muestra un mensaje de aviso
      * Si acepta
      *      Solicita los permisos
      * Si no

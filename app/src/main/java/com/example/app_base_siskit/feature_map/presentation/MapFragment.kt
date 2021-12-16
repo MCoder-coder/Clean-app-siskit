@@ -140,7 +140,6 @@ class MapFragment : Fragment() {
         mapView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         mapView.isClickable = true;
 
-        mapView.isClickable = true;
         mapView.setBuiltInZoomControls(true);
         mapView.mapScaleBar?.isVisible = false;
 
