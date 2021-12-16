@@ -1,8 +1,7 @@
 package com.example.app_base_siskit.di.module
 
-import com.example.app_base_siskit.di.ApiBaseUrl
+import com.example.app_base_siskit.utils.RacApiConstants
 
-import com.example.app_base_siskit.utils.SharedPrefs
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,7 +30,7 @@ object NetworkModule {
         return Retrofit.Builder().apply {
             addConverterFactory(GsonConverterFactory.create())
             client(okHttp)
-            baseUrl(ApiBaseUrl.BASE_URL)
+            baseUrl(RacApiConstants.API_BASE_URL)
         }.build()
     }
 
