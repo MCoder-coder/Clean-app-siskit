@@ -18,6 +18,7 @@ class PermissionHelper {
 
 
 
+
     var permissionsAlertDialog: AlertDialog? = null
     private lateinit var locationManager : LocationManager
     private var REQUEST_PERMISSION_LOCATION = 10
@@ -85,11 +86,10 @@ class PermissionHelper {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE, REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE)
             return
         }
-
-        /*if(!isGpsEnabled()){
+        if(!isGpsEnabled()){
             showRequiredGpsEnabledDialog(context)
             return
-        }*/
+        }
 
 
         Log.d(ContentValues.TAG,"execute -> initService()")
@@ -126,7 +126,7 @@ class PermissionHelper {
     }
 
 
- /*   private fun isGpsEnabled() : Boolean {
+    private fun isGpsEnabled() : Boolean {
         Log.d(TAG,"isGpsEnabled()")
        // var locationManager: LocationManager
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -134,7 +134,7 @@ class PermissionHelper {
             return true;
         }
         return false
-    }*/
+    }
 
 
     /**

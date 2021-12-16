@@ -43,7 +43,6 @@
                     android:id="@+id/drive_mode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:contentDescription="TODO"
                     android:paddingBottom="15dp"
                     android:src="@drawable/ic_baseline_drive_eta_24"
                     android:tint="#FFFF" />
@@ -55,7 +54,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="15dp"
                     android:background="@color/green"
-                    android:contentDescription="TODO"
+
                     android:src="@drawable/ic_baseline_edit_location_24"
                     android:tint="#FFFF">
 

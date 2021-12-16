@@ -18,13 +18,13 @@ class CreateLocationOverlay {
     var inicialLatLong = LatLong(-37.4816786, -61.9454334)
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    fun createLocationOverlay(context: Context, mapView : MapView, ){
+    fun createLocationOverlay(context: Context, mapView : MapView, myLocationOverlay: MyLocationOverlay){
         // marcador para mostrar ubicacion actual
         val myLocationMarker = context.getDrawable(R.drawable.ic_baseline_my_location_24)
         val bitmap = AndroidGraphicFactory.convertToBitmap(myLocationMarker)
         val marker = Marker(inicialLatLong, bitmap, 0, 0)
 
-        myLocationOverlay = MyLocationOverlay((context as Activity), mapView.model?.mapViewPosition as MapViewPosition?,
+         MyLocationOverlay((context as Activity), mapView.model?.mapViewPosition as MapViewPosition?,
             bitmap, null, null
         );
         mapView.layerManager?.layers?.add(myLocationOverlay);
