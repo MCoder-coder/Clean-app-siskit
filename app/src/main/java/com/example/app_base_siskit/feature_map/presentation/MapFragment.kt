@@ -69,8 +69,9 @@ class MapFragment : Fragment() {
         val view = _mapbinding!!.root
 
         mapConfigurationInit()
-        PermissionHelper().showRequiredPermissionsDialog(requireActivity())
+
         mapViewModel.mapDownload(requireContext())
+        // test
         mapViewModel.mapLoad(requireContext() , mapView)
 
         floatDriveModeManualNavigation(requireContext() ,mapView )

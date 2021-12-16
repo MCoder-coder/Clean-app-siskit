@@ -22,7 +22,7 @@ class MapViewModel @Inject constructor(private val mapLoadUseCase: MapLoadUseCas
     //carga de mapa oflline
      fun mapLoad(context: Context , mapView: MapView){
         mapLoadUseCase.invoke(context, mapView)
-    }
+     }
 
     //descarga del mapa
     fun mapDownload(context: Context){
