@@ -26,11 +26,6 @@
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
         >
-        // tools:targetApi="m"
-
-        <activity
-            android:name=".feature_map.presentation.MapActivity"
-            android:exported="true" />
         <activity
             android:name=".feature_login.presentation.login.LoginActivity"
             android:exported="true">

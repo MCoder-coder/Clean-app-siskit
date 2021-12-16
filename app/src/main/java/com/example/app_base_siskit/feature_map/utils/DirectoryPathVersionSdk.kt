@@ -19,7 +19,7 @@ class DirectoryPathVersionSdk {
             Log.d("MAPFILE", "Android ver < Q")
             Log.d("MAPFILE", "usa Environment.getExternalStoragePublicDirectory")
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-//            activity?.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+            context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
         }
 
         return filepath
