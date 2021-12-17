@@ -15,10 +15,6 @@
         android:layout_gravity="center"
         android:label="Geo Contact"
         android:layout_centerHorizontal="true"
-        tools:layout="@layout/fragment_home"/>
-    <activity
-        android:id="@+id/mapActivity"
-        android:name="com.example.app_base_siskit.feature_map.presentation.MapActivity"
-        android:label="activity_map"
-        tools:layout="@layout/activity_map" />
+        tools:layout="@layout/fragment_geocontact"/>
+
 </navigation>

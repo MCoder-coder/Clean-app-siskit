@@ -69,8 +69,9 @@ class MapFragment : Fragment() {
         val view = _mapbinding!!.root
 
         mapConfigurationInit()
-        PermissionHelper().showRequiredPermissionsDialog(requireActivity())
+
         mapViewModel.mapDownload(requireContext())
+        // test
         mapViewModel.mapLoad(requireContext() , mapView)
 
         floatDriveModeManualNavigation(requireContext() ,mapView )
@@ -140,7 +141,6 @@ class MapFragment : Fragment() {
         mapView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         mapView.isClickable = true;
 
-        mapView.isClickable = true;
         mapView.setBuiltInZoomControls(true);
         mapView.mapScaleBar?.isVisible = false;
 
