@@ -20,4 +20,10 @@ object GeoDatabaseModule {
             GeoDatabase::class.java, "geo_db"
         ).build()
     }
+
+    @Singleton
+    @Provides
+    fun provideGeoCtDao(
+        database: GeoDatabase
+    ) = database
 }

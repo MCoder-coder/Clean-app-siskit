@@ -14,7 +14,7 @@ import com.example.app_base_siskit.feature_geo_contact.data.local.entity.GeoUser
     version = 1
 )
 abstract class GeoDatabase : RoomDatabase() {
-    abstract val geoContactDao: GeoContactDao
-    abstract val geoPointDao: GeoPointDao
-    abstract val getUserDao : GeoUserDao
+    abstract fun geoContactDao(): GeoContactDao
+    abstract fun geoPointDao(): GeoPointDao
+    abstract fun getUserDao() : GeoUserDao
 }

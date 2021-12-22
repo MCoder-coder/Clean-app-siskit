@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "geo_point")
 data class GeoPointEntity(
-    @PrimaryKey val ID: String,
+    @PrimaryKey val ID: Int,
     val ACCURACY: Double,
     val CREATEDAT: Int,
     val ERRORDETAIL: String,

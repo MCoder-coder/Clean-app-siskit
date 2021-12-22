@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "geo_contact")
 data class GeoContactEntity(
-    @PrimaryKey val ID: String,
+    @PrimaryKey val ID: Int,
     val ACTIVIDAD: String,
     val CHECKCONTACTOJDLINK: Int,
     val CHECKRECLAMO: Int,
