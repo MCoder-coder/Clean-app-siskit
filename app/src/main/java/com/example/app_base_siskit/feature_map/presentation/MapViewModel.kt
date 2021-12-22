@@ -26,10 +26,11 @@ class MapViewModel @Inject constructor(private val mapLoadUseCase: MapLoadUseCas
 
     //descarga del mapa
     fun mapDownload(context: Context){
+        val id = 0L
         val myMapfile = DirectoryPathVersionSdk().getFile(context)
-        val mapDownload = mapDownloadUseCase.invoke(context)
+        val mapDownload = mapDownloadUseCase.invoke(context , id)
         if (!myMapfile.exists()){
-            MapDownloadNotification().downloadDialog(context , mapDownload)
+            MapDownloadNotification(id).downloadDialog(context , mapDownload)
         }
     }
 

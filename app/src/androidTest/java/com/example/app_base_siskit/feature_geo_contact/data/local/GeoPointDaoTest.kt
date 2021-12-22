@@ -46,15 +46,45 @@ class GeoPointDaoTest {
 
     @Test
     fun insertPoint() = runBlockingTest {
-
-
-        pointDao.insertGeoPoint(point)
-
         val getAllPoint = pointDao.getAllGeoPointOrderByDesc().getOrAwaitValue()
-
+        pointDao.insertGeoPoint(point)
         assertThat(getAllPoint).contains(point)
 
     }
+
+    @Test
+    fun deletePoint() = runBlockingTest {
+        val getAllPoint = pointDao.getAllGeoPointOrderByDesc().getOrAwaitValue()
+        pointDao.deleteGeoPoint(point)
+        assertThat(getAllPoint).doesNotContain(point)
+    }
+
+    @Test
+    fun updatePoint() = runBlockingTest {
+        val getAllPoint = pointDao.getAllGeoPointOrderByDesc().getOrAwaitValue()
+        var latitude = point.LATTITUDE
+        latitude = 2.3
+        pointDao.updateGeoPoint(point)
+        assertThat(getAllPoint).isNotEqualTo(point.LATTITUDE != latitude)
+    }
+
+    @Test
+    fun getPoinID() = runBlockingTest {
+        pointDao.insertGeoPoint(point)
+        val getAllPoint = pointDao.getAllGeoPointOrderByDesc().getOrAwaitValue()
+        val id = pointDao.getGeoPointID(1)
+        assertThat(getAllPoint).contains(id)
+    }
+
+    @Test
+    fun getAllPoint() = runBlockingTest {
+        pointDao.insertGeoPoint(point)
+        val getAllPoint = pointDao.getAllPoint()
+        assertThat(getAllPoint.contains(point)).isTrue()
+
+    }
+
+
 
     @After
     fun teardown(){

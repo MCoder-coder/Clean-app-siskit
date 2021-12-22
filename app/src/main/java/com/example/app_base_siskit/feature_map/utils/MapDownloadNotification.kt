@@ -12,8 +12,8 @@ import android.widget.Toast
 import com.example.app_base_siskit.utils.Constants
 import java.io.File
 
-class MapDownloadNotification() {
-    var downloadID: Long = 0
+class MapDownloadNotification(downloadID: Long) {
+   // var downloadID: Long = 0
     var onDownloadComplete: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             //Fetching the download id received with the broadcast

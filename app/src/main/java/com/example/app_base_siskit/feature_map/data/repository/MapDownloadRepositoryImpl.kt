@@ -12,8 +12,8 @@ import java.io.File
 
 class MapDownloadRepositoryImpl : MapDownloadRepository {
     var downloadID: Long = 0
-    override fun mapDownload(context: Context) {
-
+    override fun mapDownload(context: Context , downloadID : Long) {
+            var id = downloadID
             Log.d("MAPFILE", "beginDownload()")
 
             val file = File(DirectoryPathVersionSdk().directoryPathVersionSdk(context), "argentina.map")
@@ -29,8 +29,12 @@ class MapDownloadRepositoryImpl : MapDownloadRepository {
                     .setAllowedOverRoaming(true);// Set if download is allowed on roaming network
             val downloadManager: DownloadManager =
                 context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager;
-            downloadID =
+            id =
                 downloadManager.enqueue(request);// enqueue puts the download request in the queue.
 
     }
 }
+
+
+
+

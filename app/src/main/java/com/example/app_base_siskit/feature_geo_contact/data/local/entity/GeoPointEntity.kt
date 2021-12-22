@@ -13,7 +13,7 @@ data class GeoPointEntity(
     val ISDELETED: Int,
     val ISLOCAL: Int,
     val ISUPLOADED: Int,
-    val LATTITUDE: Double,
+    var LATTITUDE: Double,
     val LONGITUDE: Double,
     val ROUTEHASH: String,
     val SERVERID: Int,
