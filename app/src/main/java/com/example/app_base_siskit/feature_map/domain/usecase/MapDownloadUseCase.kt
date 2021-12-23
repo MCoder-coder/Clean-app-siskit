@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class MapDownloadUseCase @Inject constructor(private var mapDownloadRepository: MapDownloadRepository) {
 
-    fun  invoke(context: Context){
-        return mapDownloadRepository.mapDownload(context)
+    fun  invoke(context: Context , id : Long){
+        return mapDownloadRepository.mapDownload(context , id)
     }
 }

@@ -20,6 +20,7 @@ class MapDownloadNotification(downloadID: Long) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
             Log.i("ID notification" , id.toString())
             //Checking if the received broadcast is for our enqueued download by matching download id
+
             if (downloadID == id) {
                 Toast.makeText(context, "Descarga Completada", Toast.LENGTH_SHORT).show()
             }
@@ -29,13 +30,14 @@ class MapDownloadNotification(downloadID: Long) {
     /**
      * Dialogo de descarga de mapa
      * */
-    fun downloadDialog(context: Context , mapDownload : Unit ){
+    fun downloadDialog(context: Context , mapDownload : Unit){
         val builder = AlertDialog.Builder(context)
         builder.setMessage("Parace que aun no has descargado el mapa para uso off-line, ¿desea descargarlo ahora?")
             .setCancelable(false)
             .setPositiveButton("SI!") { dialog, id ->
                 context.registerReceiver(onDownloadComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
                 mapDownload
+
             }
             .setNegativeButton("Ahora NO!") { dialog, id ->
                 dialog.cancel()

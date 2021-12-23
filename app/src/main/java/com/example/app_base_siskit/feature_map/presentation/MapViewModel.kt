@@ -1,6 +1,8 @@
 package com.example.app_base_siskit.feature_map.presentation
 
 import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.example.app_base_siskit.feature_map.MyLocationOverlay
 import com.example.app_base_siskit.feature_map.domain.usecase.MapDownloadUseCase
@@ -25,13 +27,21 @@ class MapViewModel @Inject constructor(private val mapLoadUseCase: MapLoadUseCas
      }
 
     //descarga del mapa
-    fun mapDownload(context: Context){
+    fun mapDownload(context: Context) : Boolean{
         val id = 0L
         val myMapfile = DirectoryPathVersionSdk().getFile(context)
-        val mapDownload = mapDownloadUseCase.invoke(context , id)
         if (!myMapfile.exists()){
+            val mapDownload = mapDownloadUseCase.invoke(context , id)
             MapDownloadNotification(id).downloadDialog(context , mapDownload)
+            return myMapfile.exists()
+            Log.i("Tag no existe" , "si no existe descargo")
+        }else{
+            Log.i("Tag Existe " , "no hago nada")
         }
+
+
+
+        return true
     }
 
     fun mapManualNavigationModeMode(context: Context, mapView: MapView, isInManualAddMode : Boolean) {
