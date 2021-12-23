@@ -27,13 +27,12 @@ class MapViewModel @Inject constructor(private val mapLoadUseCase: MapLoadUseCas
      }
 
     //descarga del mapa
-    fun mapDownload(context: Context) : Boolean{
+    fun mapDownload(context: Context){
         val id = 0L
         val myMapfile = DirectoryPathVersionSdk().getFile(context)
         if (!myMapfile.exists()){
             val mapDownload = mapDownloadUseCase.invoke(context , id)
             MapDownloadNotification(id).downloadDialog(context , mapDownload)
-            return myMapfile.exists()
             Log.i("Tag no existe" , "si no existe descargo")
         }else{
             Log.i("Tag Existe " , "no hago nada")
@@ -41,7 +40,6 @@ class MapViewModel @Inject constructor(private val mapLoadUseCase: MapLoadUseCas
 
 
 
-        return true
     }
 
     fun mapManualNavigationModeMode(context: Context, mapView: MapView, isInManualAddMode : Boolean) {

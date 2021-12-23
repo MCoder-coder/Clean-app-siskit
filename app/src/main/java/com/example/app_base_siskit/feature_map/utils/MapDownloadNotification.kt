@@ -22,6 +22,7 @@ class MapDownloadNotification(downloadID: Long) {
             //Checking if the received broadcast is for our enqueued download by matching download id
 
             if (downloadID == id) {
+                Log.i("DESCARGA" , "COMPLETADA")
                 Toast.makeText(context, "Descarga Completada", Toast.LENGTH_SHORT).show()
             }
         }
