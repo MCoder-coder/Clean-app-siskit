@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,12 +18,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 import com.example.app_base_siskit.feature_login.presentation.login.LoginActivity
+import com.example.app_base_siskit.feature_map.presentation.MapViewModel
 import com.example.app_base_siskit.utils.PermissionHelper
 import com.example.app_base_siskit.utils.SharedPrefs
+import org.mapsforge.map.android.view.MapView
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,6 +42,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var permissionHelper : PermissionHelper
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+
     @SuppressLint("SetTextI18n", "CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +88,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mainActivityContext = this as AppCompatActivity // no borrar!
         permissionHelper = PermissionHelper(mainActivityContext)
         initPermissionFlow()
+
     }
 
     override fun onBackPressed() {

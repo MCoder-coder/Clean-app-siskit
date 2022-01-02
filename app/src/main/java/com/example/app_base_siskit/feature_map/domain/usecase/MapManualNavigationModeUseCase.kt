@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class MapManualNavigationModeUseCase @Inject constructor(private val mapManualNavigationModeRepository: MapManualNavigationModeRepository) {
 
-    fun invoke(context: Context , mapView: MapView , isInManualAddMode : Boolean){
-        mapManualNavigationModeRepository.gestureDetector(context , mapView , isInManualAddMode)
+    fun invoke(context: Context , mapView: MapView , isInManualAddMode : Boolean) : Boolean{
+        return mapManualNavigationModeRepository.gestureDetector(context , mapView , isInManualAddMode)
     }
 
 }

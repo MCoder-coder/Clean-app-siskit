@@ -40,25 +40,37 @@
 
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/drive_mode"
-                    android:layout_width="match_parent"
+                    android:id="@+id/driveMode"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="15dp"
-                    android:src="@drawable/ic_baseline_drive_eta_24"
-                    android:tint="#FFFF" />
+                    android:layout_gravity="end"
+                    android:layout_margin="10dp"
+                    android:padding="12dp"
+                    app:backgroundTint="@color/gray"
+                    android:tint="@color/white"
+                    android:src="@drawable/ic_drivemode_off_eta_24" />
 
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/location"
+                    android:id="@+id/addBacheClick"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/green"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:tint="@color/white"
+                    android:padding="12dp"
+                    app:backgroundTint="@color/gray"
+                    android:src="@drawable/ic_addd_click_off_24" />
 
-                    android:src="@drawable/ic_baseline_edit_location_24"
-                    android:tint="#FFFF">
-
-                </com.google.android.material.floatingactionbutton.FloatingActionButton>
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/addBacheGPS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_margin="10dp"
+                    android:tint="@color/white"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_add_location_off_36dp"
+                    android:visibility="gone" />
 
 
             </LinearLayout>

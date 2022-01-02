@@ -4,6 +4,6 @@ class Constants {
     companion object {
 
         //
-
+        var downloadID: Long = 0
     }
 }

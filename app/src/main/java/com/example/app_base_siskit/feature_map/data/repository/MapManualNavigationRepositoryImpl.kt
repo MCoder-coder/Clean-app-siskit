@@ -14,7 +14,7 @@ import org.mapsforge.map.android.view.MapView
 
 class MapManualNavigationRepositoryImpl : MapManualNavigationModeRepository {
     @SuppressLint("ClickableViewAccessibility")
-    override fun gestureDetector(context: Context, mapView: MapView, isInManualAddMode : Boolean) {
+    override fun gestureDetector(context: Context, mapView: MapView, isInManualAddMode : Boolean) : Boolean {
          val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                 //do something
@@ -61,6 +61,7 @@ class MapManualNavigationRepositoryImpl : MapManualNavigationModeRepository {
 
         })
 
+        return isInManualAddMode
     }
 
 }

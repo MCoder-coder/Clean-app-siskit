@@ -1,46 +1,30 @@
 package com.example.app_base_siskit.feature_map.presentation
 
-import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.location.LocationManager
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.*
-import android.widget.ImageButton
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.createViewModelLazy
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.app_base_siskit.R
 import com.example.app_base_siskit.databinding.FragmentMapBinding
 import com.example.app_base_siskit.feature_map.MyLocationOverlay
-import com.example.app_base_siskit.feature_map.utils.CreateLocationOverlay
 
 
-import com.example.app_base_siskit.utils.PermissionHelper
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.mapsforge.core.model.LatLong
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory
 
 
 import org.mapsforge.map.android.view.MapView
-import org.mapsforge.map.layer.cache.TileCache
 import org.mapsforge.map.layer.overlay.Marker
-import org.mapsforge.map.layer.renderer.TileRendererLayer
 import org.mapsforge.map.model.MapViewPosition
 
 
@@ -57,7 +41,9 @@ class MapFragment : Fragment() {
     private var _mapbinding: FragmentMapBinding? = null
     private val mapbindingget get() = _mapbinding!!
     private val mapViewModel : MapViewModel by activityViewModels()
-
+    var isInManualAddMode: Boolean = false
+    lateinit var myLocationOverlay: MyLocationOverlay
+    var isDriveMode : Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,11 +60,29 @@ class MapFragment : Fragment() {
         // test
         mapViewModel.mapLoad(requireContext() , mapView)
 
-        floatDriveModeManualNavigation(requireContext() ,mapView )
+        //floatDriveModeManualNavigation(requireContext() ,mapView )
+
+
+        val btnaddBacheClick = _mapbinding!!.addBacheClick
+        val btnDriveMode = _mapbinding!!.driveMode
+       // mapView?.getModel()?.mapViewPosition?.setCenter(inicialLatLong);
+        createLocationOverlay(mapView)
+        btnDriveMode.setOnClickListener {
+            mapViewModel.mapDriveMode(requireActivity() , mapView , myLocationOverlay!!)
+            changeControls(mapView)
+        }
+
+        btnaddBacheClick.setOnClickListener {
+            changeManualMode(requireActivity())
+        }
 
         return view
 
     }
+
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -106,28 +110,80 @@ class MapFragment : Fragment() {
 
 
 
-    private fun floatDriveModeManualNavigation(context: Context, mapView: MapView){
-        val btnModeDrive = _mapbinding!!.driveMode
+    /**
+     * Modo manual
+     * (agrega marcador clickeando en el mapa)
+     * */
+    fun changeManualMode(context: Context){
+        val addClick = _mapbinding!!.addBacheClick
+        isInManualAddMode = !isInManualAddMode
+        val manualmode = mapViewModel.mapManualNavigationMode(requireActivity(), mapView , isInManualAddMode)
+        Log.i("Tag manual mode " , manualmode.toString())
+        if(manualmode){
 
-        btnModeDrive.setOnClickListener {
+            Toast.makeText(context, "Modo Manual Activado", Toast.LENGTH_SHORT).show()
+        }else{
+
+            Toast.makeText(context, "Modo Manual Desactivado", Toast.LENGTH_SHORT).show()
+        }
+      changeControls(mapView)
+    }
 
 
-            if (btnModeDrive.isClickable) {
+    /**
+     * Activa y Desactiva los botones sobre el mapa
+     * */
+    fun changeControls( mapView: MapView) {
 
-                mapViewModel.mapDriveMode(requireContext(), mapView)
-                btnModeDrive.backgroundTintList =
-                    ColorStateList.valueOf(resources.getColor(R.color.colorAccent))
-            } else {
 
-                btnModeDrive.backgroundTintList =
-                    ColorStateList.valueOf(resources.getColor(R.color.gray))
+        val primaryColor =  ColorStateList.valueOf(Color.rgb(2 ,120,17))
+        val colorGray = ColorStateList.valueOf(Color.GRAY)
 
-            }
+        val addClick = _mapbinding!!.addBacheClick
+        val addGPS = _mapbinding!!.addBacheGPS
+        val btnDriveMode = _mapbinding!!.driveMode
+        //mapViewModel.mapDriveMode(context , mapView)
+        val dm = myLocationOverlay?.getDriverMode()
+        val manualmode = mapViewModel.mapManualNavigationMode(requireActivity() , mapView , isInManualAddMode)
+        Log.i("TAG" , "DM $dm")
+        if (dm == true) {
+            btnDriveMode.visibility = View.VISIBLE
+            addClick.visibility = View.GONE
+            addGPS.visibility = View.VISIBLE
 
+            Log.i("TAG" , "Drive Mode")
+
+            btnDriveMode.backgroundTintList = primaryColor
+
+            btnDriveMode.setImageResource(R.drawable.ic_baseline_drive_eta_24)
+            addGPS.setImageResource(R.drawable.ic_add_location_off_36dp)
+        }else if (manualmode) {
+            btnDriveMode.visibility = View.GONE
+            addClick.visibility = View.VISIBLE
+            addGPS.visibility = View.GONE
+            Log.i("TAG" , "MANUAL MODE")
+
+            addClick.backgroundTintList = primaryColor
+
+            addClick.setImageResource(R.drawable.ic_drivemode_off_eta_24)
+            addGPS.setImageResource(R.drawable.ic_baseline_add_location_24)
+            addClick.setImageResource(R.drawable.ic_add_location_on_36dp)
+        } else {
+            btnDriveMode.visibility = View.VISIBLE
+            addGPS.visibility = View.GONE
+            addClick.visibility = View.VISIBLE
+            // colors
+            Log.i("TAG" , "No manual MODE")
+            addClick.backgroundTintList = colorGray
+            btnDriveMode.backgroundTintList =  colorGray
+
+            btnDriveMode.setImageResource(R.drawable.ic_drivemode_off_eta_24)
+            addGPS.setImageResource(R.drawable.ic_baseline_add_location_24)
+            //addClick.setImageResource(R.drawable.ic_baseline_edit_location_24)
 
         }
-
     }
+
 
 
     private fun mapConfigurationInit(){
@@ -146,6 +202,26 @@ class MapFragment : Fragment() {
 
         // Centro el mapa a las coordenadas
         mapView.model?.mapViewPosition?.center = inicialLatLong;
+    }
+
+
+    /**
+     * Location Overlay
+     * (Posicion actual de GPS)
+     * */
+    fun createLocationOverlay(mapView: MapView){
+        // marcador para mostrar ubicacion actual
+        val myLocationMarker = this.resources.getDrawable(R.drawable.ic_baseline_my_location_24)
+        val bitmap = AndroidGraphicFactory.convertToBitmap(myLocationMarker)
+        val marker = Marker(inicialLatLong, bitmap, 0, 0)
+
+        myLocationOverlay = MyLocationOverlay(requireActivity(), mapView?.model?.mapViewPosition as MapViewPosition?,
+            bitmap, null, null
+        );
+        mapView?.layerManager?.layers?.add(myLocationOverlay);
+
+        myLocationOverlay?.isSnapToLocationEnabled = true;
+        myLocationOverlay?.enableMyLocation(true);
     }
 
 
