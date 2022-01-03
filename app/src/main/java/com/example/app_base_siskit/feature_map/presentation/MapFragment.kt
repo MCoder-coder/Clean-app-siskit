@@ -1,5 +1,6 @@
 package com.example.app_base_siskit.feature_map.presentation
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
@@ -12,6 +13,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.app_base_siskit.R
@@ -65,15 +67,20 @@ class MapFragment : Fragment() {
 
         val btnaddBacheClick = _mapbinding!!.addBacheClick
         val btnDriveMode = _mapbinding!!.driveMode
+        val btnaddBacheGPS = _mapbinding!!.addBacheGPS
        // mapView?.getModel()?.mapViewPosition?.setCenter(inicialLatLong);
         createLocationOverlay(mapView)
         btnDriveMode.setOnClickListener {
-            mapViewModel.mapDriveMode(requireActivity() , mapView , myLocationOverlay!!)
+            mapViewModel.mapDriveMode(requireActivity() , mapView , myLocationOverlay)
             changeControls(mapView)
         }
 
         btnaddBacheClick.setOnClickListener {
             changeManualMode(requireActivity())
+        }
+
+        btnaddBacheGPS.setOnClickListener {
+            Navigation.findNavController(context as Activity , R.id.nav_host_fragment ).navigate(R.id.newClientFragment)
         }
 
         return view
@@ -86,7 +93,7 @@ class MapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
+      //  setHasOptionsMenu(true)
 
     }
 
@@ -96,13 +103,13 @@ class MapFragment : Fragment() {
         inflater.inflate(R.menu.main, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(
+ /*   override fun onOptionsItemSelected(item: MenuItem): Boolean {
+     *//*   return NavigationUI.onNavDestinationSelected(
             item,
             requireView().findNavController()
-        ) || super.onOptionsItemSelected(item)
+        ) || super.onOptionsItemSelected(item)*//*
     }
-
+*/
     override fun onDestroyView() {
         super.onDestroyView()
         _mapbinding = null
@@ -120,10 +127,8 @@ class MapFragment : Fragment() {
         val manualmode = mapViewModel.mapManualNavigationMode(requireActivity(), mapView , isInManualAddMode)
         Log.i("Tag manual mode " , manualmode.toString())
         if(manualmode){
-
             Toast.makeText(context, "Modo Manual Activado", Toast.LENGTH_SHORT).show()
         }else{
-
             Toast.makeText(context, "Modo Manual Desactivado", Toast.LENGTH_SHORT).show()
         }
       changeControls(mapView)
@@ -143,7 +148,7 @@ class MapFragment : Fragment() {
         val addGPS = _mapbinding!!.addBacheGPS
         val btnDriveMode = _mapbinding!!.driveMode
         //mapViewModel.mapDriveMode(context , mapView)
-        val dm = myLocationOverlay?.getDriverMode()
+        val dm = myLocationOverlay.getDriverMode()
         val manualmode = mapViewModel.mapManualNavigationMode(requireActivity() , mapView , isInManualAddMode)
         Log.i("TAG" , "DM $dm")
         if (dm == true) {
@@ -209,19 +214,20 @@ class MapFragment : Fragment() {
      * Location Overlay
      * (Posicion actual de GPS)
      * */
+    @SuppressLint("UseCompatLoadingForDrawables")
     fun createLocationOverlay(mapView: MapView){
         // marcador para mostrar ubicacion actual
         val myLocationMarker = this.resources.getDrawable(R.drawable.ic_baseline_my_location_24)
         val bitmap = AndroidGraphicFactory.convertToBitmap(myLocationMarker)
-        val marker = Marker(inicialLatLong, bitmap, 0, 0)
 
-        myLocationOverlay = MyLocationOverlay(requireActivity(), mapView?.model?.mapViewPosition as MapViewPosition?,
+
+        myLocationOverlay = MyLocationOverlay(requireActivity(), mapView.model?.mapViewPosition as MapViewPosition?,
             bitmap, null, null
         );
-        mapView?.layerManager?.layers?.add(myLocationOverlay);
+        mapView.layerManager?.layers?.add(myLocationOverlay);
 
-        myLocationOverlay?.isSnapToLocationEnabled = true;
-        myLocationOverlay?.enableMyLocation(true);
+        myLocationOverlay.isSnapToLocationEnabled = true;
+        myLocationOverlay.enableMyLocation(true);
     }
 
 

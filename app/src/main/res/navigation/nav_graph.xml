@@ -16,5 +16,10 @@
         android:label="Geo Contact"
         android:layout_centerHorizontal="true"
         tools:layout="@layout/fragment_geocontact"/>
+    <fragment
+        android:id="@+id/newClientFragment"
+        android:name="com.example.app_base_siskit.feature_geo_contact.presentation.NewClientFragment"
+        android:label="Nuevo Cliente"
+        tools:layout="@layout/fragment_new_client" />
 
 </navigation>
