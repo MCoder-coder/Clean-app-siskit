@@ -5,5 +5,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 
 interface MapDownloadRepository {
-    fun mapDownloadDialog(context: Context)
+
+    var onDownloadComplete: BroadcastReceiver?
+
+    fun mapDownload(context: Context)
+
 }
