@@ -23,7 +23,7 @@ import com.example.app_base_siskit.utils.Constants
 import java.io.File
 
 class MapDownloadRepositoryImpl : MapDownloadRepository {
-    var downloadID: Long = 0
+    override var downloadID: Long = 0
 
     override fun mapDownload(context: Context) {
 
@@ -45,24 +45,6 @@ class MapDownloadRepositoryImpl : MapDownloadRepository {
         downloadID =
             downloadManager.enqueue(request);// enqueue puts the download request in the queue.
 
-    }
-
-
-    override var onDownloadComplete: BroadcastReceiver? = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            //Fetching the download id received with the broadcast
-            val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-            Log.i("ID notification" , id.toString())
-            //Checking if the received broadcast is for our enqueued download by matching download id
-
-            if (downloadID == id) {
-                Log.i("DESCARGA" , "COMPLETADA")
-
-                Navigation.findNavController(context as Activity , R.id.nav_host_fragment ).popBackStack()
-                Navigation.findNavController(context as Activity , R.id.nav_host_fragment ).navigate(R.id.geo_contact)
-                Toast.makeText(context, "Descarga Completada", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 
 }

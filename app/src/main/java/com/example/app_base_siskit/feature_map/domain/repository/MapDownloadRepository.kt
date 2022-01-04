@@ -6,7 +6,7 @@ import android.content.Context
 
 interface MapDownloadRepository {
 
-    var onDownloadComplete: BroadcastReceiver?
+    var downloadID : Long
 
     fun mapDownload(context: Context)
 
