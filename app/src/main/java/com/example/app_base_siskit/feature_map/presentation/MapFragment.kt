@@ -14,8 +14,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
 import com.example.app_base_siskit.R
 import com.example.app_base_siskit.databinding.FragmentMapBinding
 import com.example.app_base_siskit.feature_map.MyLocationOverlay
@@ -26,7 +24,6 @@ import org.mapsforge.map.android.graphics.AndroidGraphicFactory
 
 
 import org.mapsforge.map.android.view.MapView
-import org.mapsforge.map.layer.overlay.Marker
 import org.mapsforge.map.model.MapViewPosition
 
 
@@ -65,9 +62,10 @@ class MapFragment : Fragment() {
         //floatDriveModeManualNavigation(requireContext() ,mapView )
 
 
+        // TODO: renombrar variables
         val btnaddBacheClick = _mapbinding!!.addBacheClick
         val btnDriveMode = _mapbinding!!.driveMode
-        val btnaddBacheGPS = _mapbinding!!.addBacheGPS
+        val btnAddGeocontactFromGPS = _mapbinding!!.addBacheGPS
        // mapView?.getModel()?.mapViewPosition?.setCenter(inicialLatLong);
         createLocationOverlay(mapView)
         btnDriveMode.setOnClickListener {
@@ -79,7 +77,8 @@ class MapFragment : Fragment() {
             changeManualMode(requireActivity())
         }
 
-        btnaddBacheGPS.setOnClickListener {
+        btnAddGeocontactFromGPS.setOnClickListener {
+            mapViewModel.mapNewGeocontactFromGps(requireActivity() , mapView, isInManualAddMode)
             Navigation.findNavController(context as Activity , R.id.nav_host_fragment ).navigate(R.id.newClientFragment)
         }
 
@@ -124,9 +123,9 @@ class MapFragment : Fragment() {
     fun changeManualMode(context: Context){
         val addClick = _mapbinding!!.addBacheClick
         isInManualAddMode = !isInManualAddMode
-        val manualmode = mapViewModel.mapManualNavigationMode(requireActivity(), mapView , isInManualAddMode)
-        Log.i("Tag manual mode " , manualmode.toString())
-        if(manualmode){
+
+        Log.i("Tag manual mode " , isInManualAddMode.toString())
+        if(isInManualAddMode){
             Toast.makeText(context, "Modo Manual Activado", Toast.LENGTH_SHORT).show()
         }else{
             Toast.makeText(context, "Modo Manual Desactivado", Toast.LENGTH_SHORT).show()
@@ -148,10 +147,11 @@ class MapFragment : Fragment() {
         val addGPS = _mapbinding!!.addBacheGPS
         val btnDriveMode = _mapbinding!!.driveMode
         //mapViewModel.mapDriveMode(context , mapView)
-        val dm = myLocationOverlay.getDriverMode()
-        val manualmode = mapViewModel.mapManualNavigationMode(requireActivity() , mapView , isInManualAddMode)
-        Log.i("TAG" , "DM $dm")
-        if (dm == true) {
+        val driveMode = myLocationOverlay.getDriverMode()
+        val manualmode = isInManualAddMode
+        //mapViewModel.mapManualNavigationMode(requireActivity() , mapView , isInManualAddMode)
+        Log.i("TAG" , "driveMode $driveMode")
+        if (driveMode == true) {
             btnDriveMode.visibility = View.VISIBLE
             addClick.visibility = View.GONE
             addGPS.visibility = View.VISIBLE
@@ -207,6 +207,18 @@ class MapFragment : Fragment() {
 
         // Centro el mapa a las coordenadas
         mapView.model?.mapViewPosition?.center = inicialLatLong;
+
+        // View Model
+        mapView.setOnTouchListener(View.OnTouchListener { v, ev ->
+            val actionType = ev.action
+            Log.d(ContentValues.TAG, "OnTouchListener-> actionType: " + actionType)
+
+
+            val tapEventResult = mapViewModel.mapNewGeocontactManualy(requireContext(), mapView, isInManualAddMode, ev)
+
+            return@OnTouchListener tapEventResult
+
+        })
     }
 
 

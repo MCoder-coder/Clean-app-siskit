@@ -19,7 +19,9 @@ class MapDriveModeRepositoryImpl : MapDriveModeRepository {
     private var inicialLatLong = LatLong(-37.4816786, -61.9454334)
    //0 private lateinit var myLocationOverlay: MyLocationOverlay
     @SuppressLint("UseCompatLoadingForDrawables", "LongLogTag")
-    override fun mapDriveMode(context: Context, mapView: MapView , myLocationOverlay : MyLocationOverlay)   {
+    override fun mapDriveMode(context: Context, mapView: MapView , myLocationOverlay : MyLocationOverlay) {
+
+       // TODO: pasar al view model
 
         Log.d(TAG, "myLocationOverlay: " + myLocationOverlay)
         //Log.d(TAG, "driver mode: " + //dm)
