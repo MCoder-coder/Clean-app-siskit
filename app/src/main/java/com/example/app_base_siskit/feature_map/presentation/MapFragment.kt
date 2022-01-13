@@ -3,9 +3,11 @@ package com.example.app_base_siskit.feature_map.presentation
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
@@ -35,6 +37,7 @@ class MapFragment : Fragment() {
     lateinit var mapView: MapView
     var map: org.osmdroid.views.MapView? = null
     lateinit var locationManager: LocationManager
+
     // Coordenada inicial para mostrar en el mapa
     var inicialLatLong = LatLong(-37.4816786, -61.9454334)
     private var _mapbinding: FragmentMapBinding? = null
@@ -42,7 +45,6 @@ class MapFragment : Fragment() {
     private val mapViewModel : MapViewModel by activityViewModels()
     var isInManualAddMode: Boolean = false
     lateinit var myLocationOverlay: MyLocationOverlay
-    var isDriveMode : Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,8 +61,6 @@ class MapFragment : Fragment() {
         // test
         mapViewModel.mapLoad(requireContext() , mapView)
 
-        //floatDriveModeManualNavigation(requireContext() ,mapView )
-
 
         // TODO: renombrar variables
         val btnaddBacheClick = _mapbinding!!.addBacheClick
@@ -70,7 +70,7 @@ class MapFragment : Fragment() {
         createLocationOverlay(mapView)
         btnDriveMode.setOnClickListener {
             mapViewModel.mapDriveMode(requireActivity() , mapView , myLocationOverlay)
-            changeControls(mapView)
+            changeControls()
         }
 
         btnaddBacheClick.setOnClickListener {
@@ -78,8 +78,8 @@ class MapFragment : Fragment() {
         }
 
         btnAddGeocontactFromGPS.setOnClickListener {
-            mapViewModel.mapNewGeocontactFromGps(requireActivity() , mapView, isInManualAddMode)
-            Navigation.findNavController(context as Activity , R.id.nav_host_fragment ).navigate(R.id.newClientFragment)
+          //  mapViewModel.mapNewGeocontactFromGps(requireActivity() , mapView, isInManualAddMode)
+           Navigation.findNavController(context as Activity , R.id.nav_host_fragment ).navigate(R.id.newClientFragment)
         }
 
         return view
@@ -130,14 +130,14 @@ class MapFragment : Fragment() {
         }else{
             Toast.makeText(context, "Modo Manual Desactivado", Toast.LENGTH_SHORT).show()
         }
-      changeControls(mapView)
+      changeControls()
     }
 
 
     /**
      * Activa y Desactiva los botones sobre el mapa
      * */
-    fun changeControls( mapView: MapView) {
+    fun changeControls() {
 
 
         val primaryColor =  ColorStateList.valueOf(Color.rgb(2 ,120,17))
@@ -147,7 +147,7 @@ class MapFragment : Fragment() {
         val addGPS = _mapbinding!!.addBacheGPS
         val btnDriveMode = _mapbinding!!.driveMode
         //mapViewModel.mapDriveMode(context , mapView)
-        val driveMode = myLocationOverlay.getDriverMode()
+        val driveMode = myLocationOverlay.driverMode
         val manualmode = isInManualAddMode
         //mapViewModel.mapManualNavigationMode(requireActivity() , mapView , isInManualAddMode)
         Log.i("TAG" , "driveMode $driveMode")
@@ -191,6 +191,7 @@ class MapFragment : Fragment() {
 
 
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun mapConfigurationInit(){
         locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
@@ -208,17 +209,40 @@ class MapFragment : Fragment() {
         // Centro el mapa a las coordenadas
         mapView.model?.mapViewPosition?.center = inicialLatLong;
 
-        // View Model
+        // Definicion de Gestos para que los gesto se inician con el fragment
+        val gestureDetector = GestureDetector(requireContext(), object : GestureDetector.SimpleOnGestureListener() {
+            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                //do something
+                Log.d(TAG, "onSingleTapConfirmed")
+                //solo si esta en modo manual puedo tomar el punto del gps
+                if(isInManualAddMode){
+
+                    mapViewModel.MapGetCordinatesFromGpsOnTapUseCase(context as Activity, e , mapView , isInManualAddMode)
+                    Log.d(TAG, "ACTION_UP -> centrado al click")
+                    return true
+                }else{
+                    Log.d(TAG, "onSingleTapConfirmed -> Click ignored (are not in manualMode)")
+                    return false
+                }
+            }
+            override fun onLongPress(e: MotionEvent) {
+                super.onLongPress(e)
+            }
+            override fun onDoubleTap(e: MotionEvent): Boolean {
+                return super.onDoubleTap(e)
+            }
+        })
+
+        // agrego listener cuando el manual mode esta desactivado funciona el OnTouchListener
         mapView.setOnTouchListener(View.OnTouchListener { v, ev ->
             val actionType = ev.action
-            Log.d(ContentValues.TAG, "OnTouchListener-> actionType: " + actionType)
-
-
-            val tapEventResult = mapViewModel.mapNewGeocontactManualy(requireContext(), mapView, isInManualAddMode, ev)
-
-            return@OnTouchListener tapEventResult
+            Log.d(TAG, "OnTouchListener-> actionType: " + actionType)
+            val xxx = gestureDetector.onTouchEvent(ev)
+            return@OnTouchListener xxx
 
         })
+
+
     }
 
 

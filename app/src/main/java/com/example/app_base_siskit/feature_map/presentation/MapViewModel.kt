@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.util.Log
 import android.view.MotionEvent
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.example.app_base_siskit.feature_map.MyLocationOverlay
 import com.example.app_base_siskit.feature_map.domain.usecase.*
@@ -16,12 +17,10 @@ import javax.inject.Inject
 @HiltViewModel
 class MapViewModel @Inject constructor(private val mapLoadUseCase: MapLoadUseCase,
                                        private val mapDownloadUseCase: MapDownloadUseCase,
-                                       private val mapDriverModeUseCase: MapDriveModeUseCase,
-                                       private val MapNewGeocontactManualyUseCase: MapNewGeocontactManualyUseCase,
-                                       private val MapNewGeocontactGpsUseCase: MapNewGeocontactGpsUseCase) : ViewModel(){
+                                       private val mapGetCordinatesFromGpsOnTapUseCase: MapGetCordinatesFromGpsOnTapUseCase
+                                    ) : ViewModel(){
 
-    // TODO: borrar?
-    var myLocationOverlay: MyLocationOverlay? = null
+
 
     //carga de mapa oflline
      fun mapLoad(context: Context , mapView: MapView){
@@ -40,36 +39,24 @@ class MapViewModel @Inject constructor(private val mapLoadUseCase: MapLoadUseCas
 
     }
 
-    fun mapDriveMode(context: Context , mapView: MapView , myLocationOverlay: MyLocationOverlay)  {
-        return mapDriverModeUseCase.invoke(context , mapView , myLocationOverlay)
-    }
+    fun mapDriveMode(context: Context, mapView: MapView , myLocationOverlay : MyLocationOverlay) {
 
-
-    fun mapNewGeocontactManualy(context: Context, mapView: MapView, isInManualAddMode : Boolean, ev: MotionEvent ) : Boolean {
-
-
-        if(isInManualAddMode) {
-            Log.d(ContentValues.TAG, "Esta en Manual Mode -> Click Acepted")
-            MapNewGeocontactManualyUseCase.invoke(context, mapView, ev)
-            return true
-        }else{
-            Log.d(ContentValues.TAG, "Esta en Drive Mode -> Click ignored (Necesario estar en Manual Mode)")
-            return false
+        Log.d(ContentValues.TAG, "myLocationOverlay: " + myLocationOverlay)
+        //Log.d(TAG, "driver mode: " + //dm)
+        val dm = myLocationOverlay.driverMode
+        Log.d(ContentValues.TAG, "driver mode: " + dm)
+        if (dm == true) {
+            myLocationOverlay.driverMode = false
+            Toast.makeText(context, "Modo Conductor Desactivado", Toast.LENGTH_SHORT).show()
+        } else {
+            myLocationOverlay.driverMode = true
+            Toast.makeText(context, "Modo Conductor Activado", Toast.LENGTH_SHORT).show()
         }
 
     }
 
-    fun mapNewGeocontactFromGps(context: Context, mapView: MapView, isInManualAddMode : Boolean) : Boolean {
-
-        if(!isInManualAddMode) {
-            Log.d(ContentValues.TAG, "Esta en Drive Mode -> Click Acepted")
-            MapNewGeocontactGpsUseCase.invoke()
-            return true
-        }else{
-            Log.d(ContentValues.TAG, "Esta en Manual Mode -> Click ignored (Necesario estar en Drive Mode)")
-            return false
-        }
-
+    fun MapGetCordinatesFromGpsOnTapUseCase(context: Context ,e : MotionEvent, mapView: MapView, isInManualAddMode : Boolean) : Boolean{
+        return  mapGetCordinatesFromGpsOnTapUseCase.invoke(context , e , mapView , isInManualAddMode)
     }
 
 
