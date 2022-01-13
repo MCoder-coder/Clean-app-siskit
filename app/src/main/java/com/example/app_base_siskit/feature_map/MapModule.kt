@@ -1,13 +1,10 @@
 package com.example.app_base_siskit.feature_map
 
 import com.example.app_base_siskit.feature_map.data.repository.MapDownloadRepositoryImpl
-import com.example.app_base_siskit.feature_map.data.repository.MapDriveModeRepositoryImpl
-import com.example.app_base_siskit.feature_map.data.repository.MapCoordinatesRepositoryImpl
 import com.example.app_base_siskit.feature_map.data.repository.MapLoadRepositoryImpl
 import com.example.app_base_siskit.feature_map.domain.repository.MapDownloadRepository
-import com.example.app_base_siskit.feature_map.domain.repository.MapDriveModeRepository
-import com.example.app_base_siskit.feature_map.domain.repository.MapCoordinatesRepository
 import com.example.app_base_siskit.feature_map.domain.repository.MapLoadRepository
+import com.example.app_base_siskit.feature_map.domain.usecase.MapGetCordinatesFromGpsOnTapUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,17 +31,8 @@ class MapModule {
 
     @Singleton
     @Provides
-    fun provideMapManualNavigationModeRepository() : MapCoordinatesRepository{
-        return  MapCoordinatesRepositoryImpl()
+    fun provideMapGetCordinatesFromGpsOnTapUseCase(): MapGetCordinatesFromGpsOnTapUseCase{
+        return  MapGetCordinatesFromGpsOnTapUseCase()
     }
-
-    @Singleton
-    @Provides
-    fun provideMapDriveModelRepository(): MapDriveModeRepository{
-        return  MapDriveModeRepositoryImpl()
-    }
-
-
-
 
 }
