@@ -29,8 +29,8 @@ class NewClientFragment : Fragment() {
 
         _binding = FragmentNewClientBinding.inflate(inflater , container , false)
         val view = binding.root
-
-        binding.cordenadas.text = args.cordenadas
+        val geoContactLocation = args.cordenadas.myLocation
+        binding.cordenadas.text = "LAT: ${geoContactLocation.latitude} ; LON: ${geoContactLocation.longitude} "
 
         return  view
     }
