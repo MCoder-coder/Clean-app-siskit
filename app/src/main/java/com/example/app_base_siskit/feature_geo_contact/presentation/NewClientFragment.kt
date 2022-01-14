@@ -5,10 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.navArgs
 import com.example.app_base_siskit.R
+import com.example.app_base_siskit.databinding.FragmentMapBinding
+import com.example.app_base_siskit.databinding.FragmentNewClientBinding
 
 
 class NewClientFragment : Fragment() {
+
+    private var _binding: FragmentNewClientBinding? = null
+    private val binding get() = _binding!!
+    private val args : NewClientFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,8 +26,13 @@ class NewClientFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_new_client, container, false)
+
+        _binding = FragmentNewClientBinding.inflate(inflater , container , false)
+        val view = binding.root
+
+        binding.cordenadas.text = args.cordenadas
+
+        return  view
     }
 
 

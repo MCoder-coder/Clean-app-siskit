@@ -143,6 +143,14 @@
                     android:inputType="number"
                     android:text=""
                     />
+
+                <TextView
+                    android:id="@+id/cordenadas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text=""
+                    />
                 <!--android:visibility="gone"-->
 
                 <Button

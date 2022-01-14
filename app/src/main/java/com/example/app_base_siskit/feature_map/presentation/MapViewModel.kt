@@ -2,6 +2,7 @@ package com.example.app_base_siskit.feature_map.presentation
 
 import android.content.ContentValues
 import android.content.Context
+import android.location.Location
 import android.util.Log
 import android.view.MotionEvent
 import android.widget.Toast
@@ -55,7 +56,7 @@ class MapViewModel @Inject constructor(private val mapLoadUseCase: MapLoadUseCas
 
     }
 
-    fun MapGetCordinatesFromGpsOnTapUseCase(context: Context ,e : MotionEvent, mapView: MapView, isInManualAddMode : Boolean) : Boolean{
+    fun MapGetCordinatesFromGpsOnTapUseCase(context: Context ,e : MotionEvent, mapView: MapView, isInManualAddMode : Boolean) : Location{
         return  mapGetCordinatesFromGpsOnTapUseCase.invoke(context , e , mapView , isInManualAddMode)
     }
 

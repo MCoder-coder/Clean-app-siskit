@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.app_base_siskit.R
 import com.example.app_base_siskit.databinding.FragmentMapBinding
 import com.example.app_base_siskit.feature_map.MyLocationOverlay
@@ -78,8 +79,10 @@ class MapFragment : Fragment() {
         }
 
         btnAddGeocontactFromGPS.setOnClickListener {
-          //  mapViewModel.mapNewGeocontactFromGps(requireActivity() , mapView, isInManualAddMode)
-           Navigation.findNavController(context as Activity , R.id.nav_host_fragment ).navigate(R.id.newClientFragment)
+            val lastLoc = myLocationOverlay.lastLocation
+            val cordinates = MapFragmentDirections.actionMapFragmentToNewClientFragment(lastLoc.toString())
+            findNavController().navigate(cordinates)
+           // Navigation.findNavController(context as Activity , R.id.nav_host_fragment ).navigate(R.id.newClientFragment)
         }
 
         return view
@@ -217,9 +220,12 @@ class MapFragment : Fragment() {
                 //solo si esta en modo manual puedo tomar el punto del gps
                 if(isInManualAddMode){
 
-                    mapViewModel.MapGetCordinatesFromGpsOnTapUseCase(context as Activity, e , mapView , isInManualAddMode)
-                    Log.d(TAG, "ACTION_UP -> centrado al click")
+                    val locat =  mapViewModel.MapGetCordinatesFromGpsOnTapUseCase(context as Activity, e , mapView , isInManualAddMode)
+                    val cordinates = MapFragmentDirections.actionMapFragmentToNewClientFragment(locat.toString())
+                    findNavController().navigate(cordinates)
+                    Log.d(TAG, "ACTION_UP -> centrado al click $locat" , )
                     return true
+
                 }else{
                     Log.d(TAG, "onSingleTapConfirmed -> Click ignored (are not in manualMode)")
                     return false
