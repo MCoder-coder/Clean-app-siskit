@@ -57,7 +57,7 @@ class MapViewModel @Inject constructor(private val mapLoadUseCase: MapLoadUseCas
 
     }
 
-    fun MapGetCordinatesFromGpsOnTapUseCase(context: Context ,e : MotionEvent, mapView: MapView, isInManualAddMode : Boolean) : LocationDataClass{
+    fun mapGetCordinatesFromGpsOnTapUseCase(context: Context, e : MotionEvent, mapView: MapView, isInManualAddMode : Boolean) : LocationDataClass{
         return  mapGetCordinatesFromGpsOnTapUseCase.invoke(context , e , mapView , isInManualAddMode)
     }
 

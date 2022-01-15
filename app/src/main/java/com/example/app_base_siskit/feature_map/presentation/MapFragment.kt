@@ -2,12 +2,10 @@ package com.example.app_base_siskit.feature_map.presentation
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
@@ -15,7 +13,6 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.app_base_siskit.R
 import com.example.app_base_siskit.databinding.FragmentMapBinding
@@ -221,7 +218,7 @@ class MapFragment : Fragment() {
                 //solo si esta en modo manual puedo tomar el punto del gps
                 if(isInManualAddMode){
 
-                    val lastLocParcelable =  mapViewModel.MapGetCordinatesFromGpsOnTapUseCase(context as Activity, e , mapView , isInManualAddMode)
+                    val lastLocParcelable =  mapViewModel.mapGetCordinatesFromGpsOnTapUseCase(context as Activity, e , mapView , isInManualAddMode)
                     val cordinates = MapFragmentDirections.actionMapFragmentToNewClientFragment(lastLocParcelable)
                     findNavController().navigate(cordinates)
                     Log.d(TAG, "ACTION_UP -> centrado al click " , )
