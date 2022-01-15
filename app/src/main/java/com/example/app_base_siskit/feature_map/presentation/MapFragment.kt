@@ -221,10 +221,10 @@ class MapFragment : Fragment() {
                 //solo si esta en modo manual puedo tomar el punto del gps
                 if(isInManualAddMode){
 
-                    val locat =  mapViewModel.MapGetCordinatesFromGpsOnTapUseCase(context as Activity, e , mapView , isInManualAddMode)
-                    //val cordinates = MapFragmentDirections.actionMapFragmentToNewClientFragment(locat.toString())
-                    //findNavController().navigate(cordinates)
-                    Log.d(TAG, "ACTION_UP -> centrado al click $locat" , )
+                    val lastLocParcelable =  mapViewModel.MapGetCordinatesFromGpsOnTapUseCase(context as Activity, e , mapView , isInManualAddMode)
+                    val cordinates = MapFragmentDirections.actionMapFragmentToNewClientFragment(lastLocParcelable)
+                    findNavController().navigate(cordinates)
+                    Log.d(TAG, "ACTION_UP -> centrado al click " , )
                     return true
 
                 }else{

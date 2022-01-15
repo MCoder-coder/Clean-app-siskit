@@ -11,6 +11,7 @@ import com.example.app_base_siskit.feature_map.MyLocationOverlay
 import com.example.app_base_siskit.feature_map.domain.usecase.*
 
 import com.example.app_base_siskit.feature_map.utils.DirectoryPathVersionSdk
+import com.example.app_base_siskit.feature_map.utils.LocationDataClass
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.mapsforge.map.android.view.MapView
 import javax.inject.Inject
@@ -56,7 +57,7 @@ class MapViewModel @Inject constructor(private val mapLoadUseCase: MapLoadUseCas
 
     }
 
-    fun MapGetCordinatesFromGpsOnTapUseCase(context: Context ,e : MotionEvent, mapView: MapView, isInManualAddMode : Boolean) : Location{
+    fun MapGetCordinatesFromGpsOnTapUseCase(context: Context ,e : MotionEvent, mapView: MapView, isInManualAddMode : Boolean) : LocationDataClass{
         return  mapGetCordinatesFromGpsOnTapUseCase.invoke(context , e , mapView , isInManualAddMode)
     }
 

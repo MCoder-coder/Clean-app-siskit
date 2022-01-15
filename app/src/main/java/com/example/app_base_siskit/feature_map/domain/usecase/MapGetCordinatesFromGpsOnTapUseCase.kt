@@ -11,13 +11,15 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.app_base_siskit.R
 import com.example.app_base_siskit.feature_map.presentation.MapFragmentDirections
+import com.example.app_base_siskit.feature_map.utils.LocationDataClass
 import org.mapsforge.map.android.view.MapView
 
 class MapGetCordinatesFromGpsOnTapUseCase {
-    fun invoke(context: Context ,e : MotionEvent, mapView: MapView, isInManualAddMode : Boolean) : Location{
+    fun invoke(context: Context ,e : MotionEvent, mapView: MapView, isInManualAddMode : Boolean) : LocationDataClass{
 
         val manualLocation = Location("")
-
+        val manualLocationDataClass = LocationDataClass(manualLocation)
+        manualLocationDataClass.myLocation
         if(isInManualAddMode) {
             Log.d(ContentValues.TAG, "onSingleTapConfirmed -> Click Acepted")
             val xpos = e.getX()
@@ -29,14 +31,14 @@ class MapGetCordinatesFromGpsOnTapUseCase {
                 mapView.setCenter(clickLatlong)
                 //  addMarker(clickLatlong)
 
-                manualLocation.setLatitude(clickLatlong.latitude)
-                manualLocation.setLongitude(clickLatlong.longitude)
+                manualLocationDataClass.myLocation.setLatitude(clickLatlong.latitude)
+                manualLocationDataClass.myLocation.setLongitude(clickLatlong.longitude)
                 // addNewGeoContactoManual(manualLocation)
 
-                return manualLocation
+                return manualLocationDataClass
             }
         }
 
-        return manualLocation
+        return manualLocationDataClass
     }
 }
