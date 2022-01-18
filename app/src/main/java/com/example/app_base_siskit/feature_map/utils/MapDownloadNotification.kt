@@ -6,11 +6,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.net.Uri
 import android.util.Log
 import android.widget.Toast
-import com.example.app_base_siskit.utils.Constants
-import java.io.File
 
 class MapDownloadNotification() {
     var downloadID: Long = 0

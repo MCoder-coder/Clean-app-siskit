@@ -6,8 +6,8 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.androiddevs.shoppinglisttestingyt.getOrAwaitValue
-import com.example.app_base_siskit.feature_geo_contact.data.local.Dao.GeoPointDao
-import com.example.app_base_siskit.feature_geo_contact.data.local.Dao.GeoUserDao
+import com.example.app_base_siskit.common.GeoDatabase
+import com.example.app_base_siskit.feature_geo_contact.data.local.dao.GeoUserDao
 import com.example.app_base_siskit.feature_geo_contact.data.local.entity.GeoUserEntity
 import com.google.common.truth.Truth
 import kotlinx.coroutines.ExperimentalCoroutinesApi

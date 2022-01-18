@@ -16,7 +16,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.app_base_siskit.R
 import com.example.app_base_siskit.databinding.FragmentMapBinding
-import com.example.app_base_siskit.feature_map.MyLocationOverlay
+import com.example.app_base_siskit.feature_map.utils.MyLocationOverlay
 import com.example.app_base_siskit.feature_map.utils.LocationDataClass
 
 
@@ -261,9 +261,11 @@ class MapFragment : Fragment() {
         val bitmap = AndroidGraphicFactory.convertToBitmap(myLocationMarker)
 
 
-        myLocationOverlay = MyLocationOverlay(requireActivity(), mapView.model?.mapViewPosition as MapViewPosition?,
-            bitmap, null, null
-        );
+        myLocationOverlay =
+            MyLocationOverlay(
+                requireActivity(), mapView.model?.mapViewPosition as MapViewPosition?,
+                bitmap, null, null
+            );
         mapView.layerManager?.layers?.add(myLocationOverlay);
 
         myLocationOverlay.isSnapToLocationEnabled = true;

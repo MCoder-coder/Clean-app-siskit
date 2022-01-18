@@ -1,25 +1,12 @@
 package com.example.app_base_siskit.feature_map.data.repository
 
-import android.app.Activity
-import android.app.AlertDialog
 import android.app.DownloadManager
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.net.Uri
 import android.util.Log
-import android.view.View
-import android.widget.Toast
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import com.example.app_base_siskit.R
 import com.example.app_base_siskit.feature_map.data.remote.MapApiDownload
 import com.example.app_base_siskit.feature_map.domain.repository.MapDownloadRepository
 import com.example.app_base_siskit.feature_map.utils.DirectoryPathVersionSdk
-import com.example.app_base_siskit.utils.Constants
 import java.io.File
 
 class MapDownloadRepositoryImpl : MapDownloadRepository {

@@ -6,7 +6,8 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.androiddevs.shoppinglisttestingyt.getOrAwaitValue
-import com.example.app_base_siskit.feature_geo_contact.data.local.Dao.GeoContactDao
+import com.example.app_base_siskit.common.GeoDatabase
+import com.example.app_base_siskit.feature_geo_contact.data.local.dao.GeoContactDao
 import com.example.app_base_siskit.feature_geo_contact.data.local.entity.GeoContactEntity
 import com.google.common.truth.Truth.assertThat
 
@@ -17,8 +18,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import javax.inject.Inject
-import javax.inject.Named
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)

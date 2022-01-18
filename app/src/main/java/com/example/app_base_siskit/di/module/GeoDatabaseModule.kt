@@ -2,7 +2,7 @@ package com.example.app_base_siskit.di.module
 
 import android.app.Application
 import androidx.room.Room
-import com.example.app_base_siskit.feature_geo_contact.data.local.GeoDatabase
+import com.example.app_base_siskit.common.GeoDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 object GeoDatabaseModule {
     @Provides
     @Singleton
-    fun provideGeoDatabase(app: Application) : GeoDatabase{
+    fun provideGeoDatabase(app: Application) : GeoDatabase {
         return Room.databaseBuilder(
             app ,
             GeoDatabase::class.java, "geo_db"
@@ -23,7 +23,7 @@ object GeoDatabaseModule {
 
     @Singleton
     @Provides
-    fun provideGeoCtDao(
+    fun provideGeoDao(
         database: GeoDatabase
     ) = database
 }

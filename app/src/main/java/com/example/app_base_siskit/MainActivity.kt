@@ -2,31 +2,29 @@ package com.example.app_base_siskit
 
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageInfo
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 import com.example.app_base_siskit.feature_login.presentation.login.LoginActivity
-import com.example.app_base_siskit.feature_map.presentation.MapViewModel
+import com.example.app_base_siskit.feature_geo_point.presentation.ForegroundServiceLocation
 import com.example.app_base_siskit.utils.PermissionHelper
 import com.example.app_base_siskit.utils.SharedPrefs
-import org.mapsforge.map.android.view.MapView
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -88,6 +86,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mainActivityContext = this as AppCompatActivity // no borrar!
         permissionHelper = PermissionHelper(mainActivityContext)
         initPermissionFlow()
+        initServiceLocation()
 
     }
 
@@ -103,7 +102,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     @SuppressLint("CutPasteId")
     private fun setUpNavigation(){
         drawerLayout = findViewById(R.id.drawer_layout)
-        val nav_view = findViewById<NavigationView>(R.id.nav_view)
         val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
@@ -121,8 +119,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-
-        val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
@@ -151,6 +147,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun signOut(){
         //sharedPrefs.clear()
         goToLoginActivity()
+    }
+
+
+    /**
+     * Inicia el Servicio de Ubicacion en Primer Plano
+     * */
+    private fun initServiceLocation(){
+        Log.d(TAG,"initService()")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Log.d(TAG,"startForegroundService()")
+            startForegroundService(Intent(this, ForegroundServiceLocation::class.java))
+        } else {
+            Log.d(TAG,"startService()")
+            startService(Intent(this, ForegroundServiceLocation::class.java))
+        }
     }
 
     /**

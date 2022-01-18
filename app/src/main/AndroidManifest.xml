@@ -25,23 +25,22 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
-        >
+        tools:targetApi="m">
         <activity
             android:name=".feature_login.presentation.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
+        <service android:name=".feature_geo_point.presentation.ForegroundServiceLocation"
+            />
     </application>
 
 </manifest>

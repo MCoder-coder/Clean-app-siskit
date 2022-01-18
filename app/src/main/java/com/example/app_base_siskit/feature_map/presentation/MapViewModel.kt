@@ -2,12 +2,11 @@ package com.example.app_base_siskit.feature_map.presentation
 
 import android.content.ContentValues
 import android.content.Context
-import android.location.Location
 import android.util.Log
 import android.view.MotionEvent
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import com.example.app_base_siskit.feature_map.MyLocationOverlay
+import com.example.app_base_siskit.feature_map.utils.MyLocationOverlay
 import com.example.app_base_siskit.feature_map.domain.usecase.*
 
 import com.example.app_base_siskit.feature_map.utils.DirectoryPathVersionSdk
