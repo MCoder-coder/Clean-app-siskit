@@ -27,7 +27,7 @@ class SvLocationListenerUseCase (provider: String, c: Context) : android.locatio
                 Log.d(ConstantsGeoPoints.TAG, "mLastLocation: " + mLastLocation.toString())
                 // val prefRouteHash = this.getRouteHash()
                 //  Log.d(TAG, "Route Hash: " + prefRouteHash)
-
+                // guardar geopoint
                 // Log.d(TAG, "lastGeoTrack:" + lastGeoTrack.toString())
         }
 
