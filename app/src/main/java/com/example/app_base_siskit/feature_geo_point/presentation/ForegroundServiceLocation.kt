@@ -6,29 +6,33 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.fragment.app.activityViewModels
 import com.example.app_base_siskit.MainActivity
 import com.example.app_base_siskit.R
-import com.example.app_base_siskit.feature_geo_point.domain.SvLocationListenerUseCase
 import com.example.app_base_siskit.feature_geo_point.ConstantsGeoPoints
+
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
 
 class ForegroundServiceLocation : Service() {
 
+
     var TAG = "ForegroundServiceLocation"
     private var mLocationManager: LocationManager? = null
+
+
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
-    var mLocationListeners = arrayOf(
-        SvLocationListenerUseCase(LocationManager.GPS_PROVIDER, this), SvLocationListenerUseCase(
-            LocationManager.NETWORK_PROVIDER, this)
-    )
 
     override fun onCreate() {
 
@@ -82,6 +86,11 @@ class ForegroundServiceLocation : Service() {
         createNotificationStartForeground(channelId)
         return Service.START_STICKY
     }
+
+    var mLocationListeners = arrayOf(
+        SvLocationListener(LocationManager.GPS_PROVIDER, this), SvLocationListener(
+            LocationManager.NETWORK_PROVIDER, this)
+    )
 
 
     private fun createNotificationStartForeground(channelId: String){
@@ -137,42 +146,6 @@ class ForegroundServiceLocation : Service() {
         //stop service
         stopSelf()
     }
-
-
-
-
-
-
-
-
- /*   fun newRouteHash() : String {
-        *//***********//*
-       // val prefs = this.getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)
-       // val temp_string = prefs?.getString("email", "") + "" + System.currentTimeMillis()
-       // val temp_route_hash = temp_string.toMD5()
-
-        //val editor = prefs.edit()
-        //editor.putString("route_hash", temp_route_hash)
-       // editor.apply()
-        *//***********//*
-        //return temp_route_hash
-    }
-
-    fun getRouteHash() : String? {
-        //val prefs = this.getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE)
-        //val temp_route_hash = prefs.getString("route_hash", newRouteHash())
-        //return temp_route_hash
-    }
-
-    fun String.toMD5(): String {
-        // toByteArray: default is Charsets.UTF_8 - https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/to-byte-array.html
-        val bytes = MessageDigest.getInstance("MD5").digest(this.toByteArray())
-        return bytes.toHex()
-    }
-
-    fun ByteArray.toHex(): String {
-        return joinToString("") { "%02x".format(it) }
-    }*/
 
 
 

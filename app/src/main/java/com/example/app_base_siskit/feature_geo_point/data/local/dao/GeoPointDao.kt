@@ -6,11 +6,7 @@ import com.example.app_base_siskit.feature_geo_point.data.local.entity.GeoPointE
 
 @Dao
 interface GeoPointDao {
-    @Query("SELECT * FROM geo_point")
-    fun getAllPoint() : List<GeoPointEntity>
 
-    @Query("SELECT * FROM geo_point  ORDER BY  ID DESC")
-    fun getAllGeoPointOrderByDesc() : LiveData<List<GeoPointEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGeoPoint(geoPointEntity: GeoPointEntity)
