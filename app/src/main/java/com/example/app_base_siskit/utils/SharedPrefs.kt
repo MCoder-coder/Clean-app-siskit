@@ -2,6 +2,7 @@ package com.example.app_base_siskit.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.app_base_siskit.feature_geo_point.RouteHash
 
 @Suppress("UNCHECKED_CAST")
 class SharedPrefs (private val context: Context) {
@@ -10,6 +11,7 @@ class SharedPrefs (private val context: Context) {
         private const val PREF_HASH = "user_hash"
         private const val PREF_NOMBRE = "nombre"
         private const val PREF_EMAIL = "email"
+        private const val PREF_ROUTE_HASH = "route_hash"
     }
 
     private val sharedPref: SharedPreferences = context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
@@ -23,6 +25,10 @@ class SharedPrefs (private val context: Context) {
     fun saveHash(hash: String){
         put(PREF_HASH, hash)
     }
+
+    fun saveRouteHash(routehash: String){
+        put(PREF_ROUTE_HASH, routehash)
+    }
     fun getEmail() : String{
        return get(PREF_EMAIL , String::class.java)
     }
@@ -32,6 +38,11 @@ class SharedPrefs (private val context: Context) {
     fun getHash() : String {
         return get(PREF_HASH, String::class.java)
     }
+
+    fun getRouteHash() : String {
+        return get(PREF_ROUTE_HASH, String::class.java)
+    }
+
 
     private fun <T> get(key: String, clazz: Class<T>): T =
         when (clazz) {
