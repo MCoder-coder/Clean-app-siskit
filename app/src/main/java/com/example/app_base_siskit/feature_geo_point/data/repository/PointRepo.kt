@@ -14,13 +14,5 @@ class PointRepo(context: Context){
     }
 
 
-    private class InsertAsyncTask(private val geoPointDao: GeoPointDao) :
-        AsyncTask<GeoPointEntity, Void, Void>() {
-        override fun doInBackground(vararg points: GeoPointEntity?): Void? {
-            for (point in points) {
-                if (point != null) geoPointDao.insertGeoPoint(point)
-            }
-            return null
-        }
-    }
+
 }
