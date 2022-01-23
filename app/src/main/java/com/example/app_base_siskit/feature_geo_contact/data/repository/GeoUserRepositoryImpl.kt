@@ -1,69 +1,94 @@
 package com.example.app_base_siskit.feature_geo_contact.data.repository
 
+import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import com.example.app_base_siskit.common.GeoDatabase
 import com.example.app_base_siskit.feature_geo_contact.data.local.entity.GeoUserEntity
-import com.example.app_base_siskit.feature_geo_contact.data.local.entity.asDomainModel
+
 import com.example.app_base_siskit.feature_geo_contact.data.remote.GeoUserAPi
 import com.example.app_base_siskit.feature_geo_contact.data.remote.dto.UserDto
-import com.example.app_base_siskit.feature_geo_contact.domain.entity.UserModel
+import com.example.app_base_siskit.feature_geo_contact.domain.entity.UserEntity
 import com.example.app_base_siskit.feature_geo_contact.domain.repository.GeoUserRepository
 import com.example.app_base_siskit.feature_login.data.common.utils.DefaultResponse
 import com.example.app_base_siskit.feature_login.presentation.common.BaseResult
 import com.example.app_base_siskit.utils.SharedPrefs
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GeoUserImpl @Inject constructor(private val userAPi: GeoUserAPi) : GeoUserRepository {
+class GeoUserRepositoryImpl @Inject constructor(private val userAPi: GeoUserAPi , context: Context) : GeoUserRepository {
 
-    lateinit var sharedPrefs: SharedPrefs
 
-   /* val user: LiveData<List<UserModel>> = Transformations.map(geoDatabase.getUserDao().getAllUser()) {
+    private val geoDatabase : GeoDatabase = GeoDatabase.getInstance(context)!!
+/*    val asDomainModelUser: LiveData<List<UserEntity>> = Transformations.map(geoDatabase.getUserDao().getAllUser()) {
         it.asDomainModel()
     }*/
+    lateinit var sharedPrefs: SharedPrefs
+    override suspend fun getAllUser(): Flow<BaseResult<List<UserEntity>, DefaultResponse<UserDto>>>  {
 
-    override suspend fun getAllMyProducts(): Flow<BaseResult<List<UserModel>, DefaultResponse<UserDto>>> {
-        return flow {
-            val response = userAPi.getUser(sharedPrefs.getHash())
-            if (response.isSuccessful){
-                val body = response.body()!!
-                var users = mutableListOf<UserModel>()
-                var user: UserModel
-                body.data?.forEach { userResponse ->
-                    user = UserModel(userResponse.id , userResponse.email ,  userResponse.usuarios_tipos_id , userResponse.sistema_id , userResponse.telefono , userResponse.nombre )
-                    users.add(
-                        UserModel(
-                            userResponse.id , userResponse.email ,  userResponse.usuarios_tipos_id , userResponse.sistema_id , userResponse.telefono , userResponse.nombre
+            return  flow {
+                 val response = userAPi.getUser()
+                response.body()!!.data!!.map {
+                   val db =  GeoUserEntity(
+                        it.id,
+                        it.email,
+                        it.nombre,
+                        it.sistema_id,
+                        it.telefono,
+                        it.usuarios_tipos_id
+                    )
+                    geoDatabase.getUserDao().insertGeoUser(db)
+                }
+
+                Log.i("tag", response.toString())
+                if (response.isSuccessful) {
+                    val body = response.body()!!
+                    Log.i("tag", body.toString())
+                    val users = mutableListOf<UserEntity>()
+                    var user: UserEntity?
+                    body.data?.forEach { usersResponse ->
+                        user = UserEntity(  usersResponse.id, usersResponse.email, usersResponse.nombre , usersResponse.sistema_id, usersResponse.telefono , usersResponse.usuarios_tipos_id)
+                        users.add(
+                            UserEntity(
+                                usersResponse.id,
+                                usersResponse.email,
+                                usersResponse.nombre,
+                                usersResponse.sistema_id,
+                                usersResponse.telefono,
+                                usersResponse.usuarios_tipos_id
+                            )
                         )
-                    )
+                        Log.i("id", usersResponse.id.toString())
+                        val insert = GeoUserEntity(
+                            usersResponse.id,
+                            usersResponse.email,
+                            usersResponse.nombre,
+                            usersResponse.sistema_id,
+                            usersResponse.telefono,
+                            usersResponse.usuarios_tipos_id
+                        )
+                        geoDatabase.getUserDao().insertGeoUser(insert)
 
+                    }
+
+
+                    emit(BaseResult.Success(users))
+
+
+                } else {
+                    val type = object : TypeToken<DefaultResponse<UserDto>>() {}.type
+                    val err = Gson().fromJson<DefaultResponse<UserDto>>(
+                        response.errorBody()!!.charStream(), type
+                    )!!
+                    err.data = response.body()!!.data
+                    // emit(BaseResult.Error(err))
                 }
 
-                emit(BaseResult.Success(users))
-
-                Log.i("Tag user Emit" , users.toString())
-                users.map {
-                    GeoUserEntity(
-                        id = it.id.toInt(),
-                        email = it.email,
-                        nombre = it.nombre,
-                        telefono = it.telefono,
-                        sistema_id = it.sistema_id.toInt(),
-                        usuarios_tipos_id = it.usuarios_tipos_id
-                    )
-                }
-               // geoDatabase.getUserDao().insertGeoUser(users)
-
-            }else{
-   /*             val type = object : TypeToken<WrappedListResponse<ProductResponse>>(){}.type
-                val err = Gson().fromJson<WrappedListResponse<ProductResponse>>(response.errorBody()!!.charStream(), type)!!
-                err.code = response.code()
-                emit(BaseResult.Error(err))*/
             }
-        }
+
     }
+
 
 }

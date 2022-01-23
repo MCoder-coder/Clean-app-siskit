@@ -21,7 +21,7 @@ interface GeoContactDao {
     @Update
     fun updateGeoContact(geoContactEntity: GeoContactEntity)
 
-    @Query("SELECT * from geo_contact WHERE ID = :Id")
+    @Query("SELECT * from geo_contact WHERE id = :Id")
     suspend fun getGeoContactID(Id: Int):GeoContactEntity
 
 }
